@@ -5,6 +5,7 @@ import cors from "cors";
 import authorsRouter from "./router/authors.router";
 import publisherRouter from "./router/publisher.router";
 import bookRouter from "./router/books.router";
+import userRouter from "./router/user.router";
 
 const app = express();
 const port = 8080;
@@ -16,6 +17,8 @@ app.use(authorsRouter);
 app.use(publisherRouter);
 
 app.use(bookRouter);
+
+app.use(userRouter);
 
 app.listen(port, () => {
   console.log("Running at port:", port);
