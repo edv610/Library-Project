@@ -1,14 +1,15 @@
-<div *ngIf="authorDetails">
+<div *ngIf="authorDetails" class="containerDetails">
   <h5>Detalhes do Autor</h5>
   <p>ID: {{ authorDetails[0].id }}</p>
   <p>Nome: {{ authorDetails[0].nome }}</p>
-</div>
-<div style="display: flex" class="d-flex justify-content-between">
-  <button (click)="authorEdit()" class="btn btn-primary" style="width: 5.5em">
-    Editar
-  </button>
 
-  <button (click)="onDelete()" class="btn btn-danger" style="width: 5.5em">
-    Apagar
-  </button>
+  <div style="display: flex" class="d-flex justify-content-between">
+    <button (click)="authorEdit()" class="btn btn-primary" style="width: 5.5em">
+      Editar
+    </button>
+
+    <button (click)="onDelete()" class="btn btn-danger" style="width: 5.5em">
+      Apagar
+    </button>
+  </div>
 </div>

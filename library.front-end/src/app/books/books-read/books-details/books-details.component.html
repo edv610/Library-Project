@@ -1,18 +1,18 @@
-<div *ngIf="booksDetails">
+<div *ngIf="booksDetails" ngClass="containerDetails">
   <h5>Detalhes do Livro</h5>
   ID: {{ booksDetails[0].id }} <br />
   Titulo: {{ booksDetails[0].titulo }} <br />
   Publicação: {{ booksDetails[0].ano }} <br />
   ID do Autor: {{ booksDetails[0].autor_id }} <br />
   ID da Editora: {{ booksDetails[0].editora_id }}
-</div>
-<br />
-<div style="display: flex" class="d-flex justify-content-between">
-  <button (click)="onEdit()" class="btn btn-primary" style="width: 5.5em">
-    Editar
-  </button>
+  <br />
+  <div style="display: flex" class="d-flex justify-content-between">
+    <button (click)="onEdit()" class="btn btn-primary" style="width: 5.5em">
+      Editar
+    </button>
 
-  <button (click)="onDelete()" class="btn btn-danger" style="width: 5.5em">
-    Apagar
-  </button>
+    <button (click)="onDelete()" class="btn btn-danger" style="width: 5.5em">
+      Apagar
+    </button>
+  </div>
 </div>

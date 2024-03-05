@@ -1,4 +1,8 @@
-<form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit()">
+<form
+  class="form-horizontal containerDetails"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
   <div class="mb-3 form-group">
     <div *ngIf="authorDetails">
       <div class="text-center"><h5>Atualizar Autor</h5></div>
