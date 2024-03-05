@@ -1,0 +1,19 @@
+<div *ngIf="publisherDetails">
+  <h5>Detalhes do Autor</h5>
+  <p>ID: {{ publisherDetails[0].id }}</p>
+  <p>Editora: {{ publisherDetails[0].nome }}</p>
+  <p>Estado: {{ publisherDetails[0].estado }}</p>
+</div>
+<div style="display: flex" class="d-flex justify-content-between">
+  <button
+    (click)="publisherEdit()"
+    class="btn btn-primary"
+    style="width: 5.5em"
+  >
+    Editar
+  </button>
+
+  <button (click)="onDelete()" class="btn btn-danger" style="width: 5.5em">
+    Apagar
+  </button>
+</div>

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2018" /* Versão do ECMAScript para a qual o TypeScript deve compilar. */,
+    "module": "CommonJS" /* Especifica o formato do módulo de saída. Use "commonjs" para Node.js. */,
+    "moduleResolution": "node" /* Define como o TypeScript resolve os módulos. "node" é a configuração adequada para projetos Node.js. */,
+    "strict": true /* Habilita opções rigorosas para ajudar na detecção de erros. */,
+    "esModuleInterop": true /* Permite interoperabilidade com módulos ES. Útil ao importar módulos CommonJS em código TypeScript. */,
+    "skipLibCheck": true /* Ignora a verificação de bibliotecas de definição de tipos. */,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist" /* Diretório de saída para os arquivos compilados. */,
+    "rootDir": "./src" /* Diretório fonte dos arquivos TypeScript. */,
+    "resolveJsonModule": true /* Permite a importação direta de módulos JSON. */,
+    "declaration": true /* Gera arquivos de declaração (.d.ts). */
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

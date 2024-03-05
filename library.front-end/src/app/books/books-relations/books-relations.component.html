@@ -1,0 +1,14 @@
+<div class="text-center">Relação de Livros</div>
+<div></div>
+<div class="containerRelations" *ngFor="let item of booksRelations">
+  Titulo: {{ item.titulo }} <br />
+  Data de Lançamento: {{ item.data }} <br />
+  Autor: {{ item.autor }} <br />
+  Editora: {{ item.editora }} <br />
+</div>
+
+<div style="display: flex" class="d-flex justify-content-between">
+  <button (click)="onCancel()" class="btn btn-danger" style="width: 5.5em">
+    Voltar
+  </button>
+</div>

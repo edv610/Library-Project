@@ -1,0 +1,53 @@
+<form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="mb-3 form-group">
+    <div class="text-center">
+      <h5>Nova Editora</h5>
+    </div>
+    <label for="name" class="form-label"
+      >Nome: <span class="required">*</span></label
+    >
+    <input
+      type="text"
+      class="form-control"
+      id="name"
+      formControlName="name"
+      [ngClass]="showInputCssError('name')"
+    />
+
+    <div>
+      <label for="location" class="form-label"
+        >Estado: <span class="required">*</span></label
+      >
+      <select
+        class="form-select"
+        aria-label="Default select example"
+        id="location"
+        formControlName="location"
+        [ngClass]="showInputCssError('location')"
+      >
+        <option *ngFor="let state of states" [value]="state.sigla">
+          {{ state.nome }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div style="display: flex" class="d-flex justify-content-between">
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="form.invalid"
+      style="width: 5.5em"
+    >
+      Enviar
+    </button>
+
+    <button
+      (click)="cancelSubmit()"
+      class="btn btn-danger"
+      style="width: 5.5em"
+    >
+      Voltar
+    </button>
+  </div>
+</form>
