@@ -73,10 +73,12 @@ export class PublishersUpdateComponent {
           ?.subscribe(
             (response) => {
               alert(
-                `Criado com sucesso! \n Nome: ${response.message} \n Estado: ${response.message2}`
+                `${response.status} \n Nome: ${response.message} \n Estado: ${response.message2}`
               );
 
-              window.location.href = '/editoras/listar';
+              setTimeout(() => {
+                this.router.navigate(['/editoras']);
+              }, 500);
             },
             (error) => {
               console.log('Erro ao editar: ', error);

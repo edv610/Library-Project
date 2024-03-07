@@ -49,9 +49,9 @@ export class AuthorsDetailsComponent implements OnInit, OnDestroy {
     if (confirmation) {
       this.authorsReadService.deleteAuthor(this.authorId)?.subscribe(
         (response) => {
-          alert('Usuario deletado com sucesso!');
+          alert(`${response.status}`);
           setTimeout(() => {
-            window.location.href = '/autores/listar';
+            this.router.navigate(['/autores/listar']);
           }, 500);
         },
         (error) => {

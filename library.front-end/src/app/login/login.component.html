@@ -1,0 +1,34 @@
+<form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="mb-3">
+    <div>
+      <h2 class="text-start">Login</h2>
+    </div>
+    <br />
+    <label for="email" class="form-label">Email:</label>
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      aria-describedby="emailHelp"
+      placeholder="exemplo@email.com"
+      formControlName="email"
+      [ngClass]="showInputCssError('email')"
+    />
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">Senha</label>
+    <input
+      type="password"
+      formControlName="password"
+      class="form-control"
+      id="password"
+      placeholder="********"
+      autocomplete="current-password"
+      [ngClass]="showInputCssError('password')"
+    />
+  </div>
+
+  <button type="submit" class="btn btn-success" [disabled]="form.invalid">
+    Login
+  </button>
+</form>

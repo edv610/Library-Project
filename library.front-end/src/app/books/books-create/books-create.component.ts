@@ -62,10 +62,12 @@ export class BooksCreateComponent implements OnInit {
           alert(`
           ${response.Status}`);
 
-          this.router.navigate(['/livros']);
+          setTimeout(() => {
+            this.router.navigate(['/livros/listar']);
+          }, 500);
         },
         (error) => {
-          console.log('Erro ao criar livro: ', error);
+          console.log('Erro ao adicionar livro: ', error);
           this.errorMessage = error.error.message;
         }
       );

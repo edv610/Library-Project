@@ -10,6 +10,9 @@ import { AuthorsModule } from './authors/authors.module';
 import { HomeComponent } from './home/home.component';
 import { PublishersModule } from './publishers/publishers.module';
 import { BooksModule } from './books/books.module';
+import { LoginModule } from './login/login.module';
+import { SharedModule } from './shared/shared.module';
+import { AuthGuard } from './guards/auth-guard';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -22,8 +25,10 @@ import { BooksModule } from './books/books.module';
     RouterModule,
     PublishersModule,
     BooksModule,
+    LoginModule,
+    SharedModule,
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

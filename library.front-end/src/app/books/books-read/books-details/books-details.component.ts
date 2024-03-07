@@ -43,7 +43,7 @@ export class BooksDetailsComponent {
     if (confirmation) {
       this.bookService.deleteBook(this.booksId)?.subscribe(
         (response) => {
-          alert('Livro deletado com sucesso!');
+          alert(`${response.status}`);
           setTimeout(() => {
             window.location.href = '/livros/listar';
           }, 500);

@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { PublishersService } from './services/publishers.service';
-import { PublishersRoutingModule } from './authors-routing.module';
+import { PublishersRoutingModule } from './publishers-routing.module';
 import { PublishersComponent } from './publishers.component';
 import { PublishersCreateComponent } from './publishers-create/publishers-create.component';
 import { PublishersReadComponent } from './publishers-read/publishers-read.component';

@@ -115,12 +115,14 @@ export async function findAllBooks() {
 export async function findBooksById(id: string) {
   const findBooksById = await db.query(
     `SELECT 
-    l.livro_id as "id", 
+    l.livro_id as "id",
     l.titulo as "titulo", 
-    TO_CHAR(l.ano_publicacao, 'DD-MM-YYYY') as "ano", 
-    l.autor_id as "autor_id", 
-    l.editora_id as "editora_id" 
-    FROM livros l WHERE livro_id = $1`,
+    TO_CHAR(l.ano_publicacao, 'DD-MM-YYYY') as "data", 
+    a.nome as "autor", 
+    e.nome as "editora"
+FROM livros l
+LEFT JOIN autores a ON l.autor_id = a.autor_id
+LEFT JOIN editores e ON l.editora_id = e.editora_id WHERE livro_id = $1`,
     [id]
   );
   return findBooksById.rows;

@@ -6,13 +6,19 @@ import { AuthorsCreateComponent } from './authors-create/authors-create.componen
 import { AuthorsReadComponent } from './authors-read/authors-read.component';
 import { AuthorsDetailsComponent } from './authors-read/authors-details/authors-details.component';
 import { AuthorsUpdateComponent } from './authors-update/authors-update.component';
+import { AuthGuard } from '../guards/auth-guard';
 
 const authorsRoutes: Routes = [
-  { path: 'autores', component: AuthorsComponent },
-  { path: 'autores/cadastro', component: AuthorsCreateComponent },
+  { path: 'autores', component: AuthorsComponent, canActivate: [AuthGuard] },
+  {
+    path: 'autores/cadastro',
+    component: AuthorsCreateComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'autores/listar',
     component: AuthorsReadComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: 'detalhes/:id', component: AuthorsDetailsComponent },
       { path: 'editar/:id', component: AuthorsUpdateComponent },

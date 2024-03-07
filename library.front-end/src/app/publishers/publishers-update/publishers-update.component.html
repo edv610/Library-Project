@@ -40,7 +40,7 @@
         [(ngModel)]="publisherDetails[0].estado"
       >
         <option *ngFor="let state of states" [value]="state.sigla">
-          {{ state.sigla }}
+          {{ state.nome }}
         </option>
       </select>
       <div *ngIf="errorMessage" class="alert alert-danger">

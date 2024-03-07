@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
+import { LoginVerifiedService } from './shared/services/login-verified.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  title = 'library.front-end';
+export class AppComponent implements OnInit, OnDestroy {
+  constructor(public loginVerifiedService: LoginVerifiedService) {}
+  ngOnInit(): void {}
+  ngOnDestroy(): void {}
 }

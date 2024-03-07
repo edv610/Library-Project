@@ -44,10 +44,10 @@ export class PublishersCreateComponent {
       this.publisherService.createPublisher(this.form.value)?.subscribe(
         (response) => {
           alert(
-            `Criado com sucesso:\n Nome: ${response.message} \n Estado: ${response.message2}`
+            `${response.status} \n Nome: ${response.message} \n Estado: ${response.message2}`
           );
           setTimeout(() => {
-            this.router.navigate(['/editoras/listar']); //ALTERAR PARA A PAGINA DE LISTA DE EDITORAS
+            this.router.navigate(['/editoras/listar']);
           }, 500);
         },
         (error) => {

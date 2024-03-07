@@ -55,6 +55,51 @@ export async function findUserById(id: string) {
   return findAuthorById.rows;
 }
 
+export async function authUser({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) {
+  let result: any;
+
+  if (!email || email.trim() === "") {
+    result = {
+      statusCode: 400,
+      status: "Bad Request!",
+      message: "Erro: Nome do usuário não fornecido ou inválido.",
+    };
+    return result;
+  }
+  if (!password || password.trim() === "") {
+    result = {
+      statusCode: 400,
+      status: "Bad Request!",
+      message: "Erro: Senha não fornecido ou inválido.",
+    };
+    return result;
+  }
+
+  const verifedUser = await db.query(
+    `select u.user_id , u.nome from usuarios u where u.nome = $1 and u.senha = $2`,
+    [email, password]
+  );
+
+  if (verifedUser.rowCount === 1) {
+    result = {
+      statusCode: 200,
+      status: "Login Realizado com sucesso",
+    };
+  } else {
+    result = {
+      statusCode: 404,
+      message: "Erro: Usuário não encontrado.",
+    };
+  }
+  return result;
+}
+
 export async function updateUserPassword(id: string, password: string) {
   let result: any;
 

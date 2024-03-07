@@ -2,9 +2,9 @@
   <h5>Detalhes do Livro</h5>
   ID: {{ booksDetails[0].id }} <br />
   Titulo: {{ booksDetails[0].titulo }} <br />
-  Publicação: {{ booksDetails[0].ano }} <br />
-  ID do Autor: {{ booksDetails[0].autor_id }} <br />
-  ID da Editora: {{ booksDetails[0].editora_id }}
+  Publicação: {{ booksDetails[0].data }} <br />
+  Autor: {{ booksDetails[0].autor }} <br />
+  Editora: {{ booksDetails[0].editora }}
   <br />
   <div style="display: flex" class="d-flex justify-content-between">
     <button (click)="onEdit()" class="btn btn-primary" style="width: 5.5em">

@@ -62,7 +62,9 @@ export class AuthorsUpdateComponent implements OnInit {
             (response) => {
               alert(`Atualizado com sucesso: ${response.message}`);
 
-              window.location.href = '/autores/listar';
+              setTimeout(() => {
+                this.router.navigate(['/autores']);
+              }, 500);
             },
             (error) => {
               console.log('Erro ao editar autor: ', error);

@@ -49,13 +49,14 @@ export class PublishersDetailsComponent {
     if (confirmation) {
       this.publisherService.deletePublisher(this.publisherId)?.subscribe(
         (response) => {
-          alert('Editora deletada com sucesso!');
+          alert(`${response.status}`);
           setTimeout(() => {
-            window.location.href = '/editoras/listar';
+            this.router.navigate(['/editoras/listar']);
           }, 500);
         },
         (error) => {
           console.log('Erro ao deletar editora: ', error);
+          console.log(error.error.status);
         }
       );
     }

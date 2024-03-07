@@ -85,7 +85,9 @@ export class BooksUpdateComponent {
           (response) => {
             alert(`Livro: ${response.message} ${response.status}`);
 
-            window.location.href = '/livros/listar';
+            setTimeout(() => {
+              this.router.navigate(['/livros']);
+            }, 500);
           },
           (error) => {
             console.log('Erro ao editar: ', error);
