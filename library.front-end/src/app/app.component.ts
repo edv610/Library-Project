@@ -17,10 +17,14 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   logOff() {
-    alert('Você saiu da sessão!');
-    setTimeout(() => {
-      this.loginVerifiedService.toggleVerifiedUser();
-      this.router.navigate(['/login']);
-    }, 500);
+    let logoffConfirm = confirm('Deseja sair da sessão?');
+
+    if (logoffConfirm) {
+      alert('Você saiu da sessão!');
+      setTimeout(() => {
+        this.loginVerifiedService.toggleVerifiedUser();
+        this.router.navigate(['/login']);
+      }, 500);
+    }
   }
 }

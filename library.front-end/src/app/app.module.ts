@@ -13,6 +13,7 @@ import { BooksModule } from './books/books.module';
 import { LoginModule } from './login/login.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthGuard } from './guards/auth-guard';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -27,6 +28,7 @@ import { AuthGuard } from './guards/auth-guard';
     BooksModule,
     LoginModule,
     SharedModule,
+    NgbModule,
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],

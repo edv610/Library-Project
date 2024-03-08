@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { LoginAuthService } from './services/auth.service';
 import { LoginVerifiedService } from '../shared/services/login-verified.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit {
     private login: LoginAuthService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private loginVerified: LoginVerifiedService
+    private loginVerified: LoginVerifiedService,
+    private modalService: NgbModal
   ) {
     this.form = this.formBuilder.group({
       email: [null, [Validators.required]],
@@ -59,5 +61,10 @@ export class LoginComponent implements OnInit {
     return {
       'is-invalid': this.touchedValidVerify(data),
     };
+  }
+
+  open() {
+    const modalRef = this.modalService.open(LoginComponent);
+    modalRef.componentInstance.name = 'World';
   }
 }
