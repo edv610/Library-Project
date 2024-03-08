@@ -107,7 +107,7 @@ export async function findAllBooks() {
     TO_CHAR(l.ano_publicacao, 'DD-MM-YYYY') as "ano", 
     l.autor_id as "autor_id", 
     l.editora_id as "editora_id" 
-    FROM livros l;`
+    FROM livros l order by l.titulo;`
   );
   return books.rows;
 }

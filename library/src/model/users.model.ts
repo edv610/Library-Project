@@ -43,7 +43,9 @@ export async function createUser({
 }
 
 export async function findAllUsers() {
-  const author = await db.query("SELECT a.nome FROM usuarios a");
+  const author = await db.query(
+    "SELECT a.nome FROM usuarios a order by a.nome;"
+  );
   return author.rows;
 }
 

@@ -39,7 +39,7 @@ export async function createAuthor(name: string) {
 
 export async function findAllAuthors() {
   const author = await db.query(
-    'SELECT a.autor_id as "id", a.nome as "nome" FROM autores a'
+    'SELECT a.autor_id as "id", a.nome as "nome" FROM autores a order by a.nome'
   );
   return author.rows;
 }

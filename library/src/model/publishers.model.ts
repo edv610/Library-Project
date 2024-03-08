@@ -46,7 +46,7 @@ export async function createPublisher({
 
 export async function findAllPublishers() {
   const publisher = await db.query(
-    'SELECT e.editora_id as "id", e.nome as "nome", e.localizacao as "estado" FROM editores e'
+    'SELECT e.editora_id as "id", e.nome as "nome", e.localizacao as "estado" FROM editores e order by e.nome;'
   );
   return publisher.rows;
 }
