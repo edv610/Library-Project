@@ -45,7 +45,7 @@ export class BooksDetailsComponent {
         (response) => {
           alert(`${response.status}`);
           setTimeout(() => {
-            window.location.href = '/livros/listar';
+            this.router.navigate(['/livros']);
           }, 500);
         },
         (error) => {

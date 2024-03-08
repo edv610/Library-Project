@@ -51,7 +51,7 @@ export class AuthorsDetailsComponent implements OnInit, OnDestroy {
         (response) => {
           alert(`${response.status}`);
           setTimeout(() => {
-            this.router.navigate(['/autores/listar']);
+            this.router.navigate(['/autores']);
           }, 500);
         },
         (error) => {

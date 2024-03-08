@@ -49,9 +49,9 @@ export class PublishersDetailsComponent {
     if (confirmation) {
       this.publisherService.deletePublisher(this.publisherId)?.subscribe(
         (response) => {
-          alert(`${response.status}`);
+          alert(`${response.Status}`);
           setTimeout(() => {
-            this.router.navigate(['/editoras/listar']);
+            this.router.navigate(['/editoras']);
           }, 500);
         },
         (error) => {

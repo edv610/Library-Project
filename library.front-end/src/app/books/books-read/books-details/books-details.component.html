@@ -5,8 +5,11 @@
   Publicação: {{ booksDetails[0].data }} <br />
   Autor: {{ booksDetails[0].autor }} <br />
   Editora: {{ booksDetails[0].editora }}
-  <br />
-  <div style="display: flex" class="d-flex justify-content-between">
+
+  <div
+    style="display: flex; padding-top: 10px"
+    class="d-flex justify-content-between"
+  >
     <button (click)="onEdit()" class="btn btn-primary" style="width: 5.5em">
       Editar
     </button>

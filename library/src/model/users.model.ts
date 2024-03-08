@@ -96,7 +96,7 @@ export async function authUser({
   } else {
     result = {
       statusCode: 404,
-      message: "Erro: Usuário não encontrado.",
+      message: "Usuário ou senha incorretos",
     };
   }
   return result;
