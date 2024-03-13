@@ -14,7 +14,7 @@ export async function createPublisher({
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: Nome da editora ou da cidade não fornecidos.",
+      message: "Nome da editora ou da cidade não fornecidos.",
     };
 
     return result;
@@ -23,7 +23,7 @@ export async function createPublisher({
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: Nome da cidade contem números.",
+      message: "Nome da cidade contem números.",
     };
     return result;
   }
@@ -35,7 +35,7 @@ export async function createPublisher({
 
   if (publisher.rowCount === 1) {
     result = {
-      status: "Editora criada com Sucesso!",
+      status: "Editora criada com sucesso!",
       statusCode: 201,
       message: name,
       message2: location,
@@ -70,7 +70,7 @@ export async function updatePublisher(
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: Nome da editora ou da cidade não fornecidos.",
+      message: "Nome da editora ou da cidade não fornecidos.",
     };
 
     return result;
@@ -79,7 +79,7 @@ export async function updatePublisher(
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: Nome da cidade contem números.",
+      message: "Nome da cidade contem números.",
     };
     return result;
   }
@@ -91,7 +91,7 @@ export async function updatePublisher(
 
   if (updatePublisher.rowCount === 1) {
     result = {
-      status: "Editora atualizada com sucesso!!",
+      status: "Editora atualizada com sucesso!",
       statusCode: 200,
       message: name,
       message2: location,
@@ -99,7 +99,7 @@ export async function updatePublisher(
   } else {
     result = {
       statusCode: 404,
-      message: "Erro: Editora não encontrada!",
+      message: "Editora não encontrada.",
     };
   }
 
@@ -126,7 +126,7 @@ export async function deletePublisher(id: string) {
   } else {
     resultDeletedPublisher = {
       statusCode: 404,
-      message: "Erro: Editora não encontrada!",
+      message: "Editora não encontrada.",
     };
   }
 

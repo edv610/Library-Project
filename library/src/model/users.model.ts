@@ -13,7 +13,7 @@ export async function createUser({
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: Nome do usuário não fornecido ou inválido.",
+      message: "Nome não fornecido.",
     };
     return result;
   }
@@ -21,7 +21,7 @@ export async function createUser({
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: Senha não fornecido ou inválido.",
+      message: "Senha não fornecida.",
     };
     return result;
   }
@@ -70,7 +70,7 @@ export async function authUser({
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: Nome do usuário não fornecido ou inválido.",
+      message: "Nome do usuário não fornecido ou inválido.",
     };
     return result;
   }
@@ -78,7 +78,7 @@ export async function authUser({
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: Senha não fornecido ou inválido.",
+      message: "Senha não fornecida ou inválido.",
     };
     return result;
   }
@@ -91,12 +91,12 @@ export async function authUser({
   if (verifedUser.rowCount === 1) {
     result = {
       statusCode: 200,
-      status: "Login Realizado com sucesso",
+      status: "Login realizado com sucesso!",
     };
   } else {
     result = {
       statusCode: 404,
-      message: "Usuário ou senha incorretos",
+      message: "Usuário ou senha incorreto.",
     };
   }
   return result;
@@ -109,7 +109,7 @@ export async function updateUserPassword(id: string, password: string) {
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: Senha não fornecido ou inválido.",
+      message: "Senha não fornecida.",
     };
     return result;
   }
@@ -127,7 +127,7 @@ export async function updateUserPassword(id: string, password: string) {
   } else {
     result = {
       statusCode: 404,
-      message: "Erro: Usuário não encontrado.",
+      message: "Usuário não encontrado.",
     };
   }
   return result;
@@ -153,7 +153,7 @@ export async function deleteUser(id: string) {
   } else {
     resultDeletedUser = {
       statusCode: 404,
-      message: "Erro: Usuario não encontrado.",
+      message: "Usuario não encontrado.",
     };
   }
 

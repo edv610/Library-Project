@@ -26,7 +26,7 @@ export async function createBook({
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: Preencha todos os campos",
+      message: "Preencha todos os campos.",
     };
 
     return result;
@@ -38,7 +38,7 @@ export async function createBook({
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: ID do Autor(a) inválido, contem letras.",
+      message: "ID do Autor(a) inválido, contem letras.",
     };
     return result;
   }
@@ -48,7 +48,7 @@ export async function createBook({
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: ID da Editora inválido, contem letras.",
+      message: "ID da Editora inválido, contem letras.",
     };
     return result;
   }
@@ -62,7 +62,7 @@ export async function createBook({
     result = {
       statusCode: 404,
       status: "Not Found!",
-      message: "Erro: ID do autor inválido, por favor insira um válido.",
+      message: "ID do autor inválido, por favor insira um válido.",
     };
     return result;
   }
@@ -76,7 +76,7 @@ export async function createBook({
     result = {
       statusCode: 404,
       status: "Not Found!",
-      message: "Erro: ID da editora inválido, por favor insira um válido.",
+      message: "ID da editora inválido, por favor insira um válido.",
     };
     return result;
   }
@@ -88,7 +88,7 @@ export async function createBook({
 
   if (book.rowCount === 1) {
     result = {
-      status: "Livro Criado com Sucesso!",
+      status: "Livro adicionado com sucesso!",
       statusCode: 201,
       message: title,
       message2: publiYear,
@@ -171,27 +171,19 @@ export async function updateBook(
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: Preencha todos os campos",
+      message: "Preencha todos os campos",
     };
 
     return result;
   }
 
   let hasLetter = isNaN(Number(authorId));
-  // if (hasLetter) {
-  //   result = {
-  //     statusCode: 400,
-  //     status: "Bad Request!",
-  //     message: "Erro: Ano inválido, contem letras.",
-  //   };
-  //   return result;
-  // }
 
   if (hasLetter) {
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: ID do Autor(a) inválido, contem letras.",
+      message: "ID do Autor(a) inválido, contem letras.",
     };
     return result;
   }
@@ -201,7 +193,7 @@ export async function updateBook(
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: ID da Editora inválido, contem letras.",
+      message: "ID da Editora inválido, contem letras.",
     };
     return result;
   }
@@ -215,7 +207,7 @@ export async function updateBook(
     result = {
       statusCode: 404,
       status: "Not Found!",
-      message: "Erro: ID do autor inválido, por favor insira um válido.",
+      message: "ID do autor inválido, por favor insira um válido.",
     };
     return result;
   }
@@ -229,7 +221,7 @@ export async function updateBook(
     result = {
       statusCode: 404,
       status: "Not Found!",
-      message: "Erro: ID da editora inválido, por favor insira um válido.",
+      message: "ID da editora inválido, por favor insira um válido.",
     };
     return result;
   }
@@ -252,7 +244,7 @@ export async function updateBook(
     result = {
       status: "Not Found!",
       statusCode: 404,
-      message: "Erro: Livro não encontrado!",
+      message: "Livro não encontrado.",
     };
   }
 
@@ -285,7 +277,7 @@ export async function deleteBook(id: string) {
     resultDeletedBook = {
       status: "Not Found!",
       statusCode: 404,
-      message: "Erro: Livro não encontrado!",
+      message: "Livro não encontrado.",
     };
   }
 

@@ -7,7 +7,7 @@ export async function createAuthor(name: string) {
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: Nome do autor não fornecido ou inválido.",
+      message: "Nome não fornecido.",
     };
     return result;
   }
@@ -17,7 +17,7 @@ export async function createAuthor(name: string) {
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: Nome do autor contem números no nome.",
+      message: "Nome contem números.",
     };
     return result;
   }
@@ -59,7 +59,7 @@ export async function updateAuthor(id: string, name: string) {
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: Nome do autor não fornecido ou inválido.",
+      message: "Nome não fornecido.",
     };
     return result;
   }
@@ -69,7 +69,7 @@ export async function updateAuthor(id: string, name: string) {
     result = {
       statusCode: 400,
       status: "Bad Request!",
-      message: "Erro: Nome do autor contem números no nome.",
+      message: "Nome contem números.",
     };
     return result;
   }
@@ -88,7 +88,7 @@ export async function updateAuthor(id: string, name: string) {
   } else {
     result = {
       statusCode: 404,
-      message: "Erro: Autor não encontrado.",
+      message: "Autor não encontrado.",
     };
   }
 
@@ -115,7 +115,7 @@ export async function deleteUser(id: string) {
   } else {
     resultDeletedAuthor = {
       statusCode: 404,
-      message: "Erro: Autor não encontrado.",
+      message: "Autor não encontrado.",
     };
   }
 
