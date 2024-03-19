@@ -1,13 +1,26 @@
 <div *ngIf="publisherDetails" class="containerDetails">
   <h5>Detalhes do Autor</h5>
-  <p>ID: {{ publisherDetails[0].id }}</p>
+  <!-- <p>ID: {{ publisherDetails[0].id }}</p>
   <p>Editora: {{ publisherDetails[0].nome }}</p>
-  <p>Estado: {{ publisherDetails[0].estado }}</p>
+  <p>Estado: {{ publisherDetails[0].estado }}</p> -->
+
+  <table class="table table-borderless table-sm">
+    <tbody>
+      <tr>
+        <th scope="row" class="col-2">Editora:</th>
+        <td>{{ publisherDetails[0].nome }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="col-2">Estado:</th>
+        <td>{{ publisherDetails[0].estado }}</td>
+      </tr>
+    </tbody>
+  </table>
 
   <div style="display: flex" class="d-flex justify-content-between">
     <button
       (click)="publisherEdit()"
-      class="btn btn-primary"
+      class="btn btn-warning"
       style="width: 5.5em"
     >
       Editar

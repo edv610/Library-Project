@@ -1,10 +1,29 @@
 <div class="text-center">Relatório de Livros</div>
 <div></div>
 <div class="containerRelations" *ngFor="let item of booksRelations">
-  Titulo: {{ item.titulo }} <br />
-  Data de Lançamento: {{ item.data }} <br />
-  Autor: {{ item.autor }} <br />
-  Editora: {{ item.editora }} <br />
+  <table class="table table-borderless table-sm">
+    <tbody>
+      <tr>
+        <th scope="row" class="col-2">Titulo:</th>
+        <td>{{ item.titulo }}</td>
+      </tr>
+
+      <tr>
+        <th scope="row" class="col-2">Data de Lançamento:</th>
+        <td>{{ item.data }}</td>
+      </tr>
+
+      <tr>
+        <th scope="row" class="col-2">Autor:</th>
+        <td>{{ item.autor }}</td>
+      </tr>
+
+      <tr>
+        <th scope="row" class="col-2">Editora:</th>
+        <td>{{ item.editora }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <div style="display: flex" class="d-flex justify-content-between">

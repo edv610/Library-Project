@@ -1,16 +1,32 @@
 <div *ngIf="booksDetails" ngClass="containerDetails">
   <h5>Detalhes do Livro</h5>
-  ID: {{ booksDetails[0].id }} <br />
-  Titulo: {{ booksDetails[0].titulo }} <br />
-  Publicação: {{ booksDetails[0].data }} <br />
-  Autor: {{ booksDetails[0].autor }} <br />
-  Editora: {{ booksDetails[0].editora }}
+  <br />
+  <table class="table table-borderless table-sm">
+    <tbody>
+      <tr>
+        <th scope="row" class="col-2">Titulo:</th>
+        <td>{{ booksDetails[0].titulo }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="col-2">Publicação:</th>
+        <td>{{ booksDetails[0].data }}</td>
+      </tr>
 
+      <tr>
+        <th scope="row" class="col-2">Autor:</th>
+        <td>{{ booksDetails[0].autor }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="col-2">Editora:</th>
+        <td>{{ booksDetails[0].editora }}</td>
+      </tr>
+    </tbody>
+  </table>
   <div
     style="display: flex; padding-top: 10px"
     class="d-flex justify-content-between"
   >
-    <button (click)="onEdit()" class="btn btn-primary" style="width: 5.5em">
+    <button (click)="onEdit()" class="btn btn-warning" style="width: 5.5em">
       Editar
     </button>
 
