@@ -8,8 +8,6 @@ import { AuthorsCreateComponent } from './authors-create/authors-create.componen
 import { AuthorsCreateService } from './services/authors-create.service';
 import { AuthorsReadComponent } from './authors-read/authors-read.component';
 import { AuthorsReadService } from './services/authors-read.service';
-import { AuthorsDetailsComponent } from './authors-read/authors-details/authors-details.component';
-import { AuthorsComponent } from './authors.component';
 import { AuthorsRoutingModule } from './authors-routing.module';
 import { AuthorsUpdateComponent } from './authors-update/authors-update.component';
 import { AuthorsUpdateService } from './services/authors-update.service';
@@ -18,8 +16,7 @@ import { AuthorsUpdateService } from './services/authors-update.service';
   declarations: [
     AuthorsCreateComponent,
     AuthorsReadComponent,
-    AuthorsDetailsComponent,
-    AuthorsComponent,
+
     AuthorsUpdateComponent,
   ],
   imports: [

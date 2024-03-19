@@ -65,7 +65,7 @@ export class AuthorsUpdateComponent implements OnInit {
               alert(`Atualizado com sucesso: ${response.message}`);
               this.formSubmitted.emit();
               setTimeout(() => {
-                this.router.navigate(['/autores']);
+                this.router.navigate(['/']);
               }, 500);
             },
             (error) => {

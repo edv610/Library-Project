@@ -37,15 +37,15 @@ export class AuthorsReadComponent implements OnInit {
     });
   }
 
-  onCancel() {
-    this.router.navigate(['/autores']);
-  }
-
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
 
   ngOnInit(): void {}
+
+  newAuthor(template: TemplateRef<void>) {
+    this.modalRef = this.modalService.show(template);
+  }
 
   onDelete() {
     let confirmation = confirm('Deseja deletar o Usuário?');
@@ -53,9 +53,9 @@ export class AuthorsReadComponent implements OnInit {
       this.authorsReadService.deleteAuthor(this.authorId)?.subscribe(
         (response) => {
           alert(`${response.status}`);
+          this.formSubmitted.emit();
           setTimeout(() => {
-            this.formSubmitted.emit();
-            this.router.navigate(['/autores']);
+            this.router.navigate(['/']);
           }, 500);
         },
         (error) => {

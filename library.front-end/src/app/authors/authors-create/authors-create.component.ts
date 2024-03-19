@@ -32,9 +32,9 @@ export class AuthorsCreateComponent implements OnInit {
       this.authorsCreateService.createAuthor(this.form.value)?.subscribe(
         (response) => {
           alert(`Criado com sucesso: ${response.message}`);
+          this.formSubmitted.emit();
           setTimeout(() => {
-            this.formSubmitted.emit();
-            this.router.navigate(['/autores/listar']);
+            this.router.navigate(['/']);
           }, 500);
         },
         (error) => {
