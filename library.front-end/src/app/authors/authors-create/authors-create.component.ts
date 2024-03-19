@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AuthorsCreateService } from './../services/authors-create.service';
@@ -12,6 +12,9 @@ import { Router } from '@angular/router';
 export class AuthorsCreateComponent implements OnInit {
   form!: FormGroup;
   errorMessage!: string;
+
+  @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>(); //Fechar modal apos envio
+  @Output() cancelClicked: EventEmitter<void> = new EventEmitter<void>(); // cancelar modal
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,7 +33,8 @@ export class AuthorsCreateComponent implements OnInit {
         (response) => {
           alert(`Criado com sucesso: ${response.message}`);
           setTimeout(() => {
-            this.router.navigate(['/autores/listar']); //ALTERAR PARA A PAGINA DE LISTA DE USUARIOS
+            this.formSubmitted.emit();
+            this.router.navigate(['/autores/listar']);
           }, 500);
         },
         (error) => {
@@ -42,7 +46,8 @@ export class AuthorsCreateComponent implements OnInit {
   }
 
   cancelSubmit() {
-    this.router.navigate(['/autores']);
+    // this.router.navigate(['/autores']);
+    this.cancelClicked.emit();
   }
 
   touchedValidVerify(data: string) {

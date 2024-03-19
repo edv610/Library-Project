@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  EventEmitter,
+  Output,
+  Input,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -11,8 +18,10 @@ import { AuthorsReadService } from '../../services/authors-read.service';
 })
 export class AuthorsDetailsComponent implements OnInit, OnDestroy {
   authorSubscribe: Subscription = new Subscription();
-  authorId!: number;
+  @Input() authorId!: number;
   authorDetails: any;
+
+  @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private router: Router,
@@ -22,7 +31,6 @@ export class AuthorsDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authorSubscribe = this.routeData.params?.subscribe((params) => {
-      this.authorId = +params['id'];
       this.loadAuthorDetails();
     });
   }
@@ -45,12 +53,12 @@ export class AuthorsDetailsComponent implements OnInit, OnDestroy {
 
   onDelete() {
     let confirmation = confirm('Deseja deletar o Usuário?');
-
     if (confirmation) {
       this.authorsReadService.deleteAuthor(this.authorId)?.subscribe(
         (response) => {
           alert(`${response.status}`);
           setTimeout(() => {
+            this.formSubmitted.emit();
             this.router.navigate(['/autores']);
           }, 500);
         },

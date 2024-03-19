@@ -1,5 +1,5 @@
 import { AuthorsReadService } from './../services/authors-read.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -13,11 +13,14 @@ import { AuthorsUpdateService } from './../services/authors-update.service';
 })
 export class AuthorsUpdateComponent implements OnInit {
   form!: FormGroup;
-  authorId!: number;
+  @Input() authorId!: number;
   errorMessage!: string;
   authorDetails: any;
 
   authorSubscribe: Subscription = new Subscription();
+
+  @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>(); //Fechar modal apos envio
+  @Output() cancelClicked: EventEmitter<void> = new EventEmitter<void>(); // cancelar modal
 
   constructor(
     private authorsUpdateService: AuthorsUpdateService,
@@ -35,7 +38,6 @@ export class AuthorsUpdateComponent implements OnInit {
     });
 
     this.authorSubscribe = this.routeData.params?.subscribe((params) => {
-      this.authorId = +params['id'];
       this.loadAuthorDetails();
     });
   }
@@ -61,7 +63,7 @@ export class AuthorsUpdateComponent implements OnInit {
           ?.subscribe(
             (response) => {
               alert(`Atualizado com sucesso: ${response.message}`);
-
+              this.formSubmitted.emit();
               setTimeout(() => {
                 this.router.navigate(['/autores']);
               }, 500);
@@ -78,13 +80,13 @@ export class AuthorsUpdateComponent implements OnInit {
   cancelUpdate() {
     let result = confirm('Deseja Cancelar?');
     if (result) {
+      this.cancelClicked.emit();
       this.router.navigate(['/autores/listar']);
     }
   }
 
   touchedValidVerify(data: string) {
     const formData = this.form.get(data);
-
     return formData ? formData.invalid && formData.touched : false;
   }
 

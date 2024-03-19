@@ -1,66 +1,60 @@
-<form
-  class="form-horizontal containerDetails"
-  [formGroup]="form"
-  (ngSubmit)="onSubmit()"
->
-  <div class="mb-3 form-group">
-    <div *ngIf="authorDetails">
-      <div class="text-center"><h5>Atualizar Autor</h5></div>
-      <label class="form-label">ID:<span class="required">*</span></label>
-      <input
-        type="text"
-        class="form-control"
-        [value]="authorDetails[0].id"
-        disabled
-      />
-    </div>
-    <hr />
-    <label for="name" class="form-label">Nome:</label>
-    <input
-      type="text"
-      class="form-control"
-      id="name"
-      formControlName="name"
-      [(ngModel)]="authorDetails[0].nome"
-      [ngClass]="showInputCssError('name')"
-    />
-    <div *ngIf="errorMessage" class="alert alert-danger">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-exclamation-circle"
-        viewBox="0 0 16 16"
-      >
-        <path
-          d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
-        />
-        <path
-          d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"
-        />
-      </svg>
-      <span class="icon-margin icon-text-margin"
-        ><strong>{{ errorMessage }}</strong></span
-      >
-    </div>
-  </div>
-  <div style="display: flex" class="d-flex justify-content-between">
-    <button
-      type="submit"
-      class="btn btn-success"
-      [disabled]="form.invalid"
-      style="width: 5.5em"
+<div class="card">
+  <div class="card-body">
+    <form
+      class="form-horizontal containerDetails"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
     >
-      Enviar
-    </button>
+      <div class="mb-3 form-group">
+        <label for="name" class="form-label">Nome:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          formControlName="name"
+          [(ngModel)]="authorDetails[0].nome"
+          [ngClass]="showInputCssError('name')"
+        />
+        <div *ngIf="errorMessage" class="alert alert-danger">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-exclamation-circle"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
+            />
+            <path
+              d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"
+            />
+          </svg>
+          <span class="icon-margin icon-text-margin"
+            ><strong>{{ errorMessage }}</strong></span
+          >
+        </div>
+      </div>
+      <div style="display: flex" class="d-flex justify-content-between">
+        <button
+          type="submit"
+          class="btn btn-success"
+          [disabled]="form.invalid"
+          style="width: 5.5em"
+        >
+          Enviar
+        </button>
 
-    <button
-      (click)="cancelUpdate()"
-      class="btn btn-danger"
-      style="width: 5.5em"
-    >
-      Voltar
-    </button>
+        <button
+          type="button"
+          (click)="cancelUpdate()"
+          class="btn btn-danger"
+          style="width: 5.5em"
+        >
+          Voltar
+        </button>
+      </div>
+    </form>
   </div>
-</form>
+</div>

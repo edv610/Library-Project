@@ -11,19 +11,22 @@ import { AuthGuard } from '../guards/auth-guard';
 const authorsRoutes: Routes = [
   { path: 'autores', component: AuthorsComponent, canActivate: [AuthGuard] },
   {
-    path: 'autores/cadastro',
-    component: AuthorsCreateComponent,
-    canActivate: [AuthGuard],
-  },
-  {
     path: 'autores/listar',
     component: AuthorsReadComponent,
     canActivate: [AuthGuard],
-    children: [
-      { path: 'detalhes/:id', component: AuthorsDetailsComponent },
-      { path: 'editar/:id', component: AuthorsUpdateComponent },
-    ],
   },
+  // {
+  //   path: 'autores/cadastro',
+  //   component: AuthorsCreateComponent,
+  //   canActivate: [AuthGuard],
+  // },
+  // {
+
+  //   children: [
+  //     { path: 'detalhes/:id', component: AuthorsDetailsComponent },
+  //     { path: 'editar/:id', component: AuthorsUpdateComponent },
+  //   ],
+  // },
 ];
 
 @NgModule({

@@ -1,20 +1,26 @@
-<div *ngIf="authorDetails" class="containerDetails">
-  <h5>Detalhes do Autor</h5>
-  <table class="table table-borderless table-sm">
-    <tbody>
-      <tr>
-        <th scope="row" class="col-2">Nome:</th>
-        <td>{{ authorDetails[0].nome }}</td>
-      </tr>
-    </tbody>
-  </table>
+<div *ngIf="authorDetails" class="card">
+  <div class="card-body">
+    <h5>Detalhes do Autor</h5>
+    <table class="table table-borderless table-sm">
+      <tbody>
+        <tr>
+          <th scope="row" class="col-2">Nome:</th>
+          <td>{{ authorDetails[0].nome }}</td>
+        </tr>
+      </tbody>
+    </table>
 
-  <div style="display: flex" class="d-flex justify-content-between">
-    <button (click)="authorEdit()" class="btn btn-warning" style="width: 5.5em">
-      Editar
-    </button>
-    <button (click)="onDelete()" class="btn btn-danger" style="width: 5.5em">
-      Apagar
-    </button>
+    <div style="display: flex" class="d-flex justify-content-between">
+      <button
+        (click)="authorEdit()"
+        class="btn btn-warning"
+        style="width: 5.5em"
+      >
+        Editar
+      </button>
+      <button (click)="onDelete()" class="btn btn-danger" style="width: 5.5em">
+        Apagar
+      </button>
+    </div>
   </div>
 </div>

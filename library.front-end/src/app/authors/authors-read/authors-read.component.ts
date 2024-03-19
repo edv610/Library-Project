@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  TemplateRef,
+  Output,
+  EventEmitter,
+} from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
 
 import { AuthorsReadService } from '../services/authors-read.service';
@@ -10,10 +17,16 @@ import { AuthorsReadService } from '../services/authors-read.service';
 })
 export class AuthorsReadComponent implements OnInit {
   authors: any[] = [];
+  modalRef?: BsModalRef;
+
+  authorId!: number;
+
+  @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private authorsReadService: AuthorsReadService,
-    private router: Router
+    private router: Router,
+    private modalService: BsModalService
   ) {
     this.loadData();
   }
@@ -24,9 +37,31 @@ export class AuthorsReadComponent implements OnInit {
     });
   }
 
-  cancelUpdate() {
+  onCancel() {
     this.router.navigate(['/autores']);
   }
 
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
   ngOnInit(): void {}
+
+  onDelete() {
+    let confirmation = confirm('Deseja deletar o Usuário?');
+    if (confirmation) {
+      this.authorsReadService.deleteAuthor(this.authorId)?.subscribe(
+        (response) => {
+          alert(`${response.status}`);
+          setTimeout(() => {
+            this.formSubmitted.emit();
+            this.router.navigate(['/autores']);
+          }, 500);
+        },
+        (error) => {
+          console.log('Erro ao deletar autor: ', error);
+        }
+      );
+    }
+  }
 }

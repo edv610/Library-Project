@@ -1,8 +1,5 @@
 <form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="mb-3 form-group">
-    <div class="text-center">
-      <h5>Novo Autor</h5>
-    </div>
     <label for="name" class="form-label"
       >Nome: <span class="required">*</span></label
     >
@@ -46,6 +43,7 @@
     </button>
 
     <button
+      type="button"
       (click)="cancelSubmit()"
       class="btn btn-danger"
       style="width: 5.5em"
