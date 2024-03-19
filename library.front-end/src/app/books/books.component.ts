@@ -18,6 +18,6 @@ export class BooksComponent {
   }
 
   booksRelations() {
-    this.router.navigate(['/livros/relacao']);
+    this.router.navigate(['/livros/relatorio']);
   }
 }

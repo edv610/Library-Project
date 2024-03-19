@@ -16,7 +16,7 @@ const booksRoutes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'livros/relacao',
+    path: 'livros/relatorio',
     component: BooksRelationsComponent,
     canActivate: [AuthGuard],
   },
