@@ -6,29 +6,24 @@ export class PublishersService {
   constructor(private http: HttpClient) {}
 
   createPublisher(publisher: any) {
-    return this.http.post<any>(
-      'http://localhost:8080/publisher/create',
-      publisher
-    );
+    return this.http.post<any>('http://localhost:8080/publisher', publisher);
   }
 
   getPublishers() {
-    return this.http.get<any[]>('http://localhost:8080/publisher/all');
+    return this.http.get<any[]>('http://localhost:8080/publisher');
   }
   getPublisherDetails(publisherId: number) {
-    return this.http.get<any>(
-      `http://localhost:8080/publisher/details/${publisherId}`
-    );
+    return this.http.get<any>(`http://localhost:8080/publisher/${publisherId}`);
   }
   deletePublisher(publisherId: number) {
     return this.http.delete<any>(
-      `http://localhost:8080/publisher/delete/${publisherId}`
+      `http://localhost:8080/publisher/${publisherId}`
     );
   }
 
   updatePublisher(dataId: any, publisher: any) {
     return this.http.put<any>(
-      `http://localhost:8080/publisher/update/${dataId}`,
+      `http://localhost:8080/publisher/${dataId}`,
       publisher
     );
   }

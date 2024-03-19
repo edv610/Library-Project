@@ -8,7 +8,7 @@ export class AuthorsUpdateService {
 
   updateAuthor(dataName: any, dataId: any) {
     return this.http.put<any>(
-      `http://localhost:8080/authors/update/${dataId}`,
+      `http://localhost:8080/authors/${dataId}`,
       dataName
     );
   }

@@ -6,18 +6,14 @@ export class AuthorsReadService {
   constructor(private http: HttpClient) {}
 
   getAuthors() {
-    return this.http.get<any[]>('http://localhost:8080/authors/all');
+    return this.http.get<any[]>('http://localhost:8080/authors');
   }
 
   getAuthorDetails(authorId: number) {
-    return this.http.get<any>(
-      `http://localhost:8080/authors/details/${authorId}`
-    );
+    return this.http.get<any>(`http://localhost:8080/authors/${authorId}`);
   }
 
   deleteAuthor(authorId: number) {
-    return this.http.delete<any>(
-      `http://localhost:8080/authors/delete/${authorId}`
-    );
+    return this.http.delete<any>(`http://localhost:8080/authors/${authorId}`);
   }
 }

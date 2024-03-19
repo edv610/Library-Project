@@ -24,15 +24,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/authors/create",
+							"raw": "http://localhost:8080/authors",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"authors",
-								"create"
+								"authors"
 							]
 						}
 					},
@@ -56,15 +55,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/authors/all",
+							"raw": "http://localhost:8080/authors",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"authors",
-								"all"
+								"authors"
 							]
 						}
 					},
@@ -76,7 +74,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/authors/details/6",
+							"raw": "http://localhost:8080/authors/19",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -84,8 +82,7 @@
 							"port": "8080",
 							"path": [
 								"authors",
-								"details",
-								"6"
+								"19"
 							]
 						}
 					},
@@ -106,7 +103,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/authors/update/41",
+							"raw": "http://localhost:8080/authors/41",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -114,7 +111,6 @@
 							"port": "8080",
 							"path": [
 								"authors",
-								"update",
 								"41"
 							]
 						}
@@ -136,7 +132,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/authors/delete/",
+							"raw": "http://localhost:8080/authors/19",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -144,8 +140,7 @@
 							"port": "8080",
 							"path": [
 								"authors",
-								"delete",
-								""
+								"19"
 							]
 						}
 					},
@@ -171,15 +166,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/publisher/create",
+							"raw": "http://localhost:8080/publisher",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"publisher",
-								"create"
+								"publisher"
 							]
 						}
 					},
@@ -203,15 +197,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/publisher/all",
+							"raw": "http://localhost:8080/publisher",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"publisher",
-								"all"
+								"publisher"
 							]
 						}
 					},
@@ -223,7 +216,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publisher/details/10",
+							"raw": "http://localhost:8080/publisher/10",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -231,7 +224,6 @@
 							"port": "8080",
 							"path": [
 								"publisher",
-								"details",
 								"10"
 							]
 						}
@@ -253,7 +245,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/publisher/update/13",
+							"raw": "http://localhost:8080/publisher/13",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -261,7 +253,6 @@
 							"port": "8080",
 							"path": [
 								"publisher",
-								"update",
 								"13"
 							]
 						}
@@ -283,7 +274,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/publisher/delete/9",
+							"raw": "http://localhost:8080/publisher/9",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -291,7 +282,6 @@
 							"port": "8080",
 							"path": [
 								"publisher",
-								"delete",
 								"9"
 							]
 						}
@@ -318,15 +308,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/book/create",
+							"raw": "http://localhost:8080/book",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"book",
-								"create"
+								"book"
 							]
 						}
 					},
@@ -350,15 +339,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/book/all",
+							"raw": "http://localhost:8080/book",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"book",
-								"all"
+								"book"
 							]
 						}
 					},
@@ -370,7 +358,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/book/details/4",
+							"raw": "http://localhost:8080/book/4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -378,7 +366,6 @@
 							"port": "8080",
 							"path": [
 								"book",
-								"details",
 								"4"
 							]
 						}
@@ -432,7 +419,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/book/update/4",
+							"raw": "http://localhost:8080/book/4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -440,7 +427,6 @@
 							"port": "8080",
 							"path": [
 								"book",
-								"update",
 								"4"
 							]
 						}
@@ -462,7 +448,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/book/delete/10",
+							"raw": "http://localhost:8080/book/10",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -470,7 +456,6 @@
 							"port": "8080",
 							"path": [
 								"book",
-								"delete",
 								"10"
 							]
 						}
@@ -489,7 +474,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"admin\",\r\n    \"password\": \"admin\" \r\n}",
+							"raw": "{\r\n    \"name\":\"teste\",\r\n    \"password\": \"teste1234\" \r\n    \r\n} ",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -497,15 +482,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/user/create",
+							"raw": "http://localhost:8080/user",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"user",
-								"create"
+								"user"
 							]
 						}
 					},
@@ -518,7 +502,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"eduardoviana@email.com\",\r\n    \"password\": \"12345678\" \r\n}",
+							"raw": "{\r\n    \"email\":\"eduardoviana@email.com\",\r\n    \"password\": \"12345678\" \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -545,15 +529,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/user/all",
+							"raw": "http://localhost:8080/user",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"user",
-								"all"
+								"user"
 							]
 						}
 					},
@@ -565,7 +548,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/user/details/2",
+							"raw": "http://localhost:8080/user/4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -573,8 +556,7 @@
 							"port": "8080",
 							"path": [
 								"user",
-								"details",
-								"2"
+								"4"
 							]
 						}
 					},
@@ -587,7 +569,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"password\": \"123\"\r\n}",
+							"raw": "{\r\n    \"password\": \"12345678\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -595,7 +577,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/user/update/3",
+							"raw": "http://localhost:8080/user/6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -603,8 +585,7 @@
 							"port": "8080",
 							"path": [
 								"user",
-								"update",
-								"3"
+								"6"
 							]
 						}
 					},
@@ -625,7 +606,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/user/delete/3",
+							"raw": "http://localhost:8080/user/7",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -633,8 +614,7 @@
 							"port": "8080",
 							"path": [
 								"user",
-								"delete",
-								"3"
+								"7"
 							]
 						}
 					},

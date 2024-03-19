@@ -6,6 +6,6 @@ export class AuthorsCreateService {
   constructor(private http: HttpClient) {}
 
   createAuthor(data: any) {
-    return this.http.post<any>('http://localhost:8080/authors/create', data);
+    return this.http.post<any>('http://localhost:8080/authors', data);
   }
 }
