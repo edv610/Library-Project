@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  TemplateRef,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import { Component, TemplateRef, Output, EventEmitter } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
 
@@ -15,10 +9,9 @@ import { AuthorsReadService } from '../services/authors-read.service';
   templateUrl: './authors-read.component.html',
   styleUrls: ['./authors-read.component.scss'],
 })
-export class AuthorsReadComponent implements OnInit {
+export class AuthorsReadComponent {
   authors: any[] = [];
   modalRef?: BsModalRef;
-
   authorId!: number;
 
   @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
@@ -41,14 +34,12 @@ export class AuthorsReadComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  ngOnInit(): void {}
-
   newAuthor(template: TemplateRef<void>) {
     this.modalRef = this.modalService.show(template);
   }
 
   onDelete() {
-    let confirmation = confirm('Deseja deletar o Usuário?');
+    let confirmation = confirm('Deseja deletar o Autor?');
     if (confirmation) {
       this.authorsReadService.deleteAuthor(this.authorId)?.subscribe(
         (response) => {

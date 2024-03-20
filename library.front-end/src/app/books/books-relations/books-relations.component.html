@@ -1,33 +1,34 @@
-<div class="text-center">Relatório de Livros</div>
-<div></div>
-<div class="containerRelations" *ngFor="let item of booksRelations">
-  <table class="table table-borderless table-sm">
-    <tbody>
-      <tr>
-        <th scope="row" class="col-2">Titulo:</th>
-        <td>{{ item.titulo }}</td>
-      </tr>
+<div class="card">
+  <div class="text-center card-header">Relatório de Livros</div>
+  <div *ngFor="let item of booksRelations" class="card-body">
+    <table class="table table-borderless table-sm containerRelations">
+      <tbody>
+        <tr>
+          <th scope="row" class="col-2">Titulo:</th>
+          <td>{{ item.titulo }}</td>
+        </tr>
 
-      <tr>
-        <th scope="row" class="col-2">Data de Lançamento:</th>
-        <td>{{ item.data }}</td>
-      </tr>
+        <tr>
+          <th scope="row" class="col-2">Data de Lançamento:</th>
+          <td>{{ item.data }}</td>
+        </tr>
 
-      <tr>
-        <th scope="row" class="col-2">Autor:</th>
-        <td>{{ item.autor }}</td>
-      </tr>
+        <tr>
+          <th scope="row" class="col-2">Autor:</th>
+          <td>{{ item.autor }}</td>
+        </tr>
 
-      <tr>
-        <th scope="row" class="col-2">Editora:</th>
-        <td>{{ item.editora }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+        <tr>
+          <th scope="row" class="col-2">Editora:</th>
+          <td>{{ item.editora }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-<div style="display: flex" class="d-flex justify-content-between">
-  <button (click)="onCancel()" class="btn btn-danger" style="width: 5.5em">
-    Voltar
-  </button>
+  <div class="card-footer">
+    <button (click)="onCancel()" class="btn btn-danger float-end">
+      Voltar
+    </button>
+  </div>
 </div>

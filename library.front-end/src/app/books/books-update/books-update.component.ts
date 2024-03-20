@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -12,7 +12,7 @@ import { BooksService } from '../services/books.service';
 })
 export class BooksUpdateComponent {
   form!: FormGroup;
-  bookId!: number;
+  @Input() booksId!: number;
   errorMessage!: string;
   bookDetails: any;
 
@@ -20,6 +20,9 @@ export class BooksUpdateComponent {
   publishers: any[] = [];
 
   bookSubscribe: Subscription = new Subscription();
+
+  @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>(); //Fechar modal apos envio
+  @Output() cancelClicked: EventEmitter<void> = new EventEmitter<void>(); // cancelar modal
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,7 +40,6 @@ export class BooksUpdateComponent {
     });
 
     this.bookSubscribe = this.routeData.params?.subscribe((params) => {
-      this.bookId = +params['id'];
       this.loadBookDetails();
     });
 
@@ -68,7 +70,7 @@ export class BooksUpdateComponent {
   }
 
   loadBookDetails() {
-    this.booksService.getBookById(this.bookId)?.subscribe((details) => {
+    this.booksService.getBookById(this.booksId)?.subscribe((details) => {
       this.bookDetails = details;
     });
   }
@@ -81,10 +83,10 @@ export class BooksUpdateComponent {
     let result = confirm('Deseja atualizar?');
     if (result) {
       if (this.form.valid) {
-        this.booksService.updateBook(this.bookId, this.form.value)?.subscribe(
+        this.booksService.updateBook(this.booksId, this.form.value)?.subscribe(
           (response) => {
             alert(`Livro: ${response.message} ${response.status}`);
-
+            this.formSubmitted.emit();
             setTimeout(() => {
               this.router.navigate(['/livros']);
             }, 500);
@@ -101,6 +103,7 @@ export class BooksUpdateComponent {
   cancelUpdate() {
     let result = confirm('Deseja Cancelar?');
     if (result) {
+      this.cancelClicked.emit();
       this.router.navigate(['/livros/listar']);
     }
   }

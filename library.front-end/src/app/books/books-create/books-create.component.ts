@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -14,6 +14,9 @@ export class BooksCreateComponent implements OnInit {
   errorMessage!: string;
   authors: any[] = [];
   publishers: any[] = [];
+
+  @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>(); //Fechar modal apos envio
+  @Output() cancelClicked: EventEmitter<void> = new EventEmitter<void>(); // cancelar modal
 
   constructor(
     private formBuilder: FormBuilder,
@@ -61,7 +64,7 @@ export class BooksCreateComponent implements OnInit {
         (response) => {
           alert(`
           ${response.Status}`);
-
+          this.formSubmitted.emit();
           setTimeout(() => {
             this.router.navigate(['/livros/listar']);
           }, 500);
@@ -75,7 +78,8 @@ export class BooksCreateComponent implements OnInit {
   }
 
   cancelSubmit() {
-    this.router.navigate(['/livros']);
+    // this.router.navigate(['/livros']);
+    this.cancelClicked.emit();
   }
 
   touchedValidVerify(data: string) {
