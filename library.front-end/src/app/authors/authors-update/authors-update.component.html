@@ -36,12 +36,11 @@
           >
         </div>
       </div>
-      <div style="display: flex" class="d-flex justify-content-between">
+      <div class="card-footer">
         <button
           type="submit"
-          class="btn btn-success"
+          class="btn btn-success float-start"
           [disabled]="form.invalid"
-          style="width: 5.5em"
         >
           Enviar
         </button>
@@ -49,8 +48,7 @@
         <button
           type="button"
           (click)="cancelUpdate()"
-          class="btn btn-danger"
-          style="width: 5.5em"
+          class="btn btn-danger float-end"
         >
           Voltar
         </button>

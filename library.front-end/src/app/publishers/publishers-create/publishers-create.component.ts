@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -15,6 +15,9 @@ export class PublishersCreateComponent {
   form!: FormGroup;
   errorMessage!: string;
   states!: BrazilianStates[];
+
+  @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>(); //Fechar modal apos envio
+  @Output() cancelClicked: EventEmitter<void> = new EventEmitter<void>(); // cancelar modal
 
   constructor(
     private formBuilder: FormBuilder,
@@ -46,8 +49,9 @@ export class PublishersCreateComponent {
           alert(
             `${response.status} \n Nome: ${response.message} \n Estado: ${response.message2}`
           );
+          this.formSubmitted.emit();
           setTimeout(() => {
-            this.router.navigate(['/editoras/listar']);
+            this.router.navigate(['/']);
           }, 500);
         },
         (error) => {
@@ -59,7 +63,8 @@ export class PublishersCreateComponent {
   }
 
   cancelSubmit() {
-    this.router.navigate(['/editoras']);
+    // this.router.navigate(['/editoras']);
+    this.cancelClicked.emit();
   }
 
   touchedValidVerify(data: string) {

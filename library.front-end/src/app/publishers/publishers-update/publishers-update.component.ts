@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -14,12 +14,15 @@ import { DropboxService } from 'src/app/shared/services/dropbox.service';
 })
 export class PublishersUpdateComponent {
   form!: FormGroup;
-  publisherId!: number;
+  @Input() publisherId!: number;
   errorMessage!: string;
   publisherDetails: any;
   states!: BrazilianStates[];
 
   publisherSubscribe: Subscription = new Subscription();
+
+  @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>(); //Fechar modal apos envio
+  @Output() cancelClicked: EventEmitter<void> = new EventEmitter<void>(); // cancelar modal
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,8 +40,7 @@ export class PublishersUpdateComponent {
       location: [null, [Validators.required, Validators.maxLength(2)]],
     });
 
-    this.publisherSubscribe = this.routeData.params?.subscribe((params) => {
-      this.publisherId = +params['id'];
+    this.publisherSubscribe = this.routeData.params?.subscribe(() => {
       this.loadPublisherDetails();
     });
 
@@ -75,7 +77,7 @@ export class PublishersUpdateComponent {
               alert(
                 `${response.status} \n Nome: ${response.message} \n Estado: ${response.message2}`
               );
-
+              this.formSubmitted.emit();
               setTimeout(() => {
                 this.router.navigate(['/editoras']);
               }, 500);
@@ -92,7 +94,8 @@ export class PublishersUpdateComponent {
   cancelUpdate() {
     let result = confirm('Deseja Cancelar?');
     if (result) {
-      this.router.navigate(['/editoras/listar']);
+      // this.router.navigate(['/editoras/listar']);
+      this.cancelClicked.emit();
     }
   }
 

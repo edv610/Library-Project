@@ -46,10 +46,6 @@ export class BooksReadComponent {
     this.modalRef = this.modalService.show(template);
   }
 
-  onCancel() {
-    this.router.navigate(['/livros']);
-  }
-
   newBook(template: TemplateRef<void>) {
     this.modalRef = this.modalService.show(template);
   }
@@ -61,8 +57,9 @@ export class BooksReadComponent {
       this.booksService.deleteBook(this.booksId)?.subscribe(
         (response) => {
           alert(`${response.status}`);
+          this.formSubmitted.emit();
           setTimeout(() => {
-            this.router.navigate(['/livros']);
+            this.router.navigate(['/']);
           }, 500);
         },
         (error) => {

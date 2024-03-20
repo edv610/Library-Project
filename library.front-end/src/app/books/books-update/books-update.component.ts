@@ -39,7 +39,7 @@ export class BooksUpdateComponent {
       publisherId: [null, Validators.required],
     });
 
-    this.bookSubscribe = this.routeData.params?.subscribe((params) => {
+    this.bookSubscribe = this.routeData.params?.subscribe(() => {
       this.loadBookDetails();
     });
 
