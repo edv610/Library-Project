@@ -103,11 +103,15 @@ export async function findAllBooks() {
   const books = await db.query(
     `SELECT 
     l.livro_id as "id", 
-    l.titulo as "titulo", 
-    TO_CHAR(l.ano_publicacao, 'DD-MM-YYYY') as "ano", 
-    l.autor_id as "autor_id", 
-    l.editora_id as "editora_id" 
-    FROM livros l order by l.titulo;`
+      l.titulo as "titulo", 
+      TO_CHAR(l.ano_publicacao, 'DD-MM-YYYY') as "ano",
+      l.autor_id as "autor_id", 
+      l.editora_id as "editora_id",
+      a.nome as "autor", 
+      e.nome as "editora"
+  FROM livros l
+  LEFT JOIN autores a ON l.autor_id = a.autor_id
+  LEFT JOIN editores e ON l.editora_id = e.editora_id;`
   );
   return books.rows;
 }

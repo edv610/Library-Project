@@ -66,7 +66,7 @@ export class BooksCreateComponent implements OnInit {
           ${response.Status}`);
           this.formSubmitted.emit();
           setTimeout(() => {
-            this.router.navigate(['/livros/listar']);
+            this.router.navigate(['/']);
           }, 500);
         },
         (error) => {

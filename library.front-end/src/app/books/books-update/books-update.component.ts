@@ -88,7 +88,7 @@ export class BooksUpdateComponent {
             alert(`Livro: ${response.message} ${response.status}`);
             this.formSubmitted.emit();
             setTimeout(() => {
-              this.router.navigate(['/livros']);
+              this.router.navigate(['/']);
             }, 500);
           },
           (error) => {
@@ -104,7 +104,7 @@ export class BooksUpdateComponent {
     let result = confirm('Deseja Cancelar?');
     if (result) {
       this.cancelClicked.emit();
-      this.router.navigate(['/livros/listar']);
+      this.router.navigate(['/']);
     }
   }
 
