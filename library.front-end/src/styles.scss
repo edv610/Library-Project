@@ -21,3 +21,6 @@ h1 {
 p {
   color: #555; /* Cor do texto cinza escuro */
 }
+
+/* Importing Bootstrap SCSS file. */
+@import "./node_modules/bootstrap/scss/bootstrap";

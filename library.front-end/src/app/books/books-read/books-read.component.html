@@ -1,33 +1,8 @@
-<!-- <div class="row">
-  <div class="list-group col-sm-6" id="list-tab" role="tablist">
-    <div class="text-center">
-      <h5>Lista de Livros</h5>
-    </div>
-    <a
-      class="list-group-item list-group-item-action"
-      id="list-home-list"
-      data-toggle="list"
-      role="tab"
-      *ngFor="let book of books"
-      [routerLink]="['/livros/listar/detalhes/', book.id]"
-      routerLinkActive="active"
-      >{{ book.titulo }}</a
-    >
-    <br />
-    <div style="display: flex" class="d-flex justify-content-between">
-      <button (click)="onCancel()" class="btn btn-danger" style="width: 5.5em">
-        Voltar
-      </button>
-    </div>
-  </div>
-  <div class="col-sm-6">
-    <router-outlet></router-outlet>
-  </div>
-</div> -->
-
 <div class="card">
-  <div class="card-body">
+  <div class="card-header">
     <h2 class="float-start">Lista de Livros</h2>
+  </div>
+  <div class="card-body">
     <button
       (click)="newBook(templateCreateBook)"
       type="button"

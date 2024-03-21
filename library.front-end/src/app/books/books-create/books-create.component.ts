@@ -59,21 +59,25 @@ export class BooksCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.form.valid) {
-      this.bookService.createBook(this.form.value)?.subscribe(
-        (response) => {
-          alert(`
+    let confirmation;
+    confirmation = confirm('Deseja Confirmar?');
+    if (confirmation) {
+      if (this.form.valid) {
+        this.bookService.createBook(this.form.value)?.subscribe(
+          (response) => {
+            alert(`
           ${response.Status}`);
-          this.formSubmitted.emit();
-          setTimeout(() => {
-            this.router.navigate(['/']);
-          }, 500);
-        },
-        (error) => {
-          console.log('Erro ao adicionar livro: ', error);
-          this.errorMessage = error.error.message;
-        }
-      );
+            this.formSubmitted.emit();
+            setTimeout(() => {
+              this.router.navigate(['/']);
+            }, 500);
+          },
+          (error) => {
+            console.log('Erro ao adicionar livro: ', error);
+            this.errorMessage = error.error.message;
+          }
+        );
+      }
     }
   }
 

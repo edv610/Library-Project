@@ -62,9 +62,4 @@ export class LoginComponent implements OnInit {
       'is-invalid': this.touchedValidVerify(data),
     };
   }
-
-  open() {
-    const modalRef = this.modalService.open(LoginComponent);
-    modalRef.componentInstance.name = 'World';
-  }
 }

@@ -16,6 +16,7 @@ import { BooksModule } from './books/books.module';
 import { LoginModule } from './login/login.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthGuard } from './guards/auth-guard';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -33,6 +34,7 @@ import { AuthGuard } from './guards/auth-guard';
     NgbModule,
     BrowserAnimationsModule,
     ModalModule.forRoot(),
+    AlertModule.forRoot(),
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],

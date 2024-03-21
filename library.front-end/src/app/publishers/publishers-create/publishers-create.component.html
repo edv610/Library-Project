@@ -1,74 +1,65 @@
-<form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="mb-3 form-group">
-    <div class="text-center">
-      <h5>Nova Editora</h5>
-    </div>
-    <label for="name" class="form-label"
-      >Nome: <span class="required">*</span></label
-    >
-    <input
-      type="text"
-      class="form-control"
-      id="name"
-      formControlName="name"
-      [ngClass]="showInputCssError('name')"
-    />
-    <div *ngIf="errorMessage" class="alert alert-danger">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-exclamation-circle"
-        viewBox="0 0 16 16"
-      >
-        <path
-          d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
+<div class="card">
+  <form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="card-body">
+      <div class="mb-3 form-group">
+        <label for="name" class="form-label"
+          >Nome: <span class="required">*</span></label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          formControlName="name"
+          [ngClass]="showInputCssError('name')"
         />
-        <path
-          d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"
-        />
-      </svg>
-      <span class="icon-margin icon-text-margin"
-        ><strong>{{ errorMessage }}</strong></span
-      >
+        <div *ngIf="errorMessage" class="alert alert-danger">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-exclamation-circle"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
+            />
+            <path
+              d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"
+            />
+          </svg>
+          <span class="icon-margin icon-text-margin"
+            ><strong>{{ errorMessage }}</strong></span
+          >
+        </div>
+        <br />
+        <div>
+          <label for="location" class="form-label"
+            >Estado: <span class="required">*</span></label
+          >
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            id="location"
+            formControlName="location"
+            [ngClass]="showInputCssError('location')"
+          >
+            <option *ngFor="let state of states" [value]="state.sigla">
+              {{ state.nome }}
+            </option>
+          </select>
+        </div>
+      </div>
     </div>
-    <br />
-    <div>
-      <label for="location" class="form-label"
-        >Estado: <span class="required">*</span></label
-      >
-      <select
-        class="form-select"
-        aria-label="Default select example"
-        id="location"
-        formControlName="location"
-        [ngClass]="showInputCssError('location')"
-      >
-        <option *ngFor="let state of states" [value]="state.sigla">
-          {{ state.nome }}
-        </option>
-      </select>
+
+    <div class="card-footer">
+      <button type="button" (click)="cancelSubmit()" class="btn btn-danger">
+        Voltar
+      </button>
+      {{ "" }}
+      <button type="submit" class="btn btn-success" [disabled]="form.invalid">
+        Enviar
+      </button>
     </div>
-  </div>
-
-  <div style="display: flex" class="d-flex justify-content-between">
-    <button
-      type="submit"
-      class="btn btn-success"
-      [disabled]="form.invalid"
-      style="width: 5.5em"
-    >
-      Enviar
-    </button>
-
-    <button
-      type="button"
-      (click)="cancelSubmit()"
-      class="btn btn-danger"
-      style="width: 5.5em"
-    >
-      Voltar
-    </button>
-  </div>
-</form>
+  </form>
+</div>

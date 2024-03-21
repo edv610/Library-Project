@@ -1,16 +1,12 @@
 <div class="card">
-  <div class="card-body">
-    <form
-      class="form-horizontal containerDetails"
-      [formGroup]="form"
-      (ngSubmit)="onSubmit()"
-    >
+  <form
+    class="form-horizontal containerDetails"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="card-body">
       <div class="mb-3 form-group">
         <div *ngIf="bookDetails">
-          <div class="text-center">
-            <h5>Detalhes do Livro</h5>
-          </div>
-
           <label for="title" class="form-label">Titulo: </label>
           <input
             type="text"
@@ -87,24 +83,16 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="card-footer">
-        <button
-          type="submit"
-          class="btn btn-success float-start"
-          [disabled]="form.invalid"
-        >
-          Enviar
-        </button>
-
-        <button
-          type="button"
-          (click)="cancelUpdate()"
-          class="btn btn-danger float-end"
-        >
-          Voltar
-        </button>
-      </div>
-    </form>
-  </div>
+    <div class="card-footer">
+      <button type="button" (click)="cancelUpdate()" class="btn btn-danger">
+        Voltar
+      </button>
+      {{ "" }}
+      <button type="submit" class="btn btn-success" [disabled]="form.invalid">
+        Enviar
+      </button>
+    </div>
+  </form>
 </div>

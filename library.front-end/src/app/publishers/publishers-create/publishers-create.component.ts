@@ -43,22 +43,27 @@ export class PublishersCreateComponent {
   }
 
   onSubmit() {
-    if (this.form.valid) {
-      this.publisherService.createPublisher(this.form.value)?.subscribe(
-        (response) => {
-          alert(
-            `${response.status} \n Nome: ${response.message} \n Estado: ${response.message2}`
-          );
-          this.formSubmitted.emit();
-          setTimeout(() => {
-            this.router.navigate(['/']);
-          }, 500);
-        },
-        (error) => {
-          console.log('Erro ao criar Editora: ', error);
-          this.errorMessage = error.error.message;
-        }
-      );
+    let confirmation;
+    confirmation = confirm('Deseja Confirmar?');
+
+    if (confirmation) {
+      if (this.form.valid) {
+        this.publisherService.createPublisher(this.form.value)?.subscribe(
+          (response) => {
+            alert(
+              `${response.status} \n Nome: ${response.message} \n Estado: ${response.message2}`
+            );
+            this.formSubmitted.emit();
+            setTimeout(() => {
+              this.router.navigate(['/']);
+            }, 500);
+          },
+          (error) => {
+            console.log('Erro ao criar Editora: ', error);
+            this.errorMessage = error.error.message;
+          }
+        );
+      }
     }
   }
 

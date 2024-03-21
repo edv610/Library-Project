@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="text-center card-header">Relatório de Livros</div>
+  <div class="text-center card-header"><h2>Relatório de Livros</h2></div>
   <div *ngFor="let item of booksRelations">
     <div class="card-body containerRelations">
       <table class="table table-borderless table-sm">
@@ -29,8 +29,6 @@
   </div>
 
   <div class="card-footer">
-    <button (click)="onCancel()" class="btn btn-danger float-end">
-      Voltar
-    </button>
+    <button (click)="onCancel()" class="btn btn-danger">Voltar</button>
   </div>
 </div>

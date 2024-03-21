@@ -16,7 +16,6 @@ export class AuthorsUpdateComponent implements OnInit {
   @Input() authorId!: number;
   errorMessage!: string;
   authorDetails: any;
-
   authorSubscribe: Subscription = new Subscription();
 
   @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>(); //Fechar modal apos envio
@@ -37,7 +36,7 @@ export class AuthorsUpdateComponent implements OnInit {
       name: [null, [Validators.required, Validators.minLength(3)]],
     });
 
-    this.authorSubscribe = this.routeData.params?.subscribe((params) => {
+    this.authorSubscribe = this.routeData.params?.subscribe(() => {
       this.loadAuthorDetails();
     });
   }
@@ -55,8 +54,10 @@ export class AuthorsUpdateComponent implements OnInit {
   }
 
   onSubmit() {
-    let result = confirm('Deseja atualizar?');
-    if (result) {
+    let confirmation = false;
+    confirmation = confirm('Deseja confirmar?');
+
+    if (confirmation) {
       if (this.form.valid) {
         this.authorsUpdateService
           .updateAuthor(this.form.value, this.authorId)
@@ -78,11 +79,7 @@ export class AuthorsUpdateComponent implements OnInit {
   }
 
   cancelUpdate() {
-    let result = confirm('Deseja Cancelar?');
-    if (result) {
-      this.cancelClicked.emit();
-      this.router.navigate(['/autores/listar']);
-    }
+    this.cancelClicked.emit();
   }
 
   touchedValidVerify(data: string) {

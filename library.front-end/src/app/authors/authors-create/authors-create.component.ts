@@ -28,25 +28,29 @@ export class AuthorsCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.form.valid) {
-      this.authorsCreateService.createAuthor(this.form.value)?.subscribe(
-        (response) => {
-          alert(`Criado com sucesso: ${response.message}`);
-          this.formSubmitted.emit();
-          setTimeout(() => {
-            this.router.navigate(['/']);
-          }, 500);
-        },
-        (error) => {
-          console.log('Erro ao criar autor: ', error);
-          this.errorMessage = error.error.message;
-        }
-      );
+    let confirmation;
+    confirmation = confirm('Deseja Confirmar?');
+
+    if (confirmation) {
+      if (this.form.valid) {
+        this.authorsCreateService.createAuthor(this.form.value)?.subscribe(
+          (response) => {
+            alert(`Criado com sucesso: ${response.message}`);
+            this.formSubmitted.emit();
+            setTimeout(() => {
+              this.router.navigate(['/']);
+            }, 500);
+          },
+          (error) => {
+            console.log('Erro ao criar autor: ', error);
+            this.errorMessage = error.error.message;
+          }
+        );
+      }
     }
   }
 
   cancelSubmit() {
-    // this.router.navigate(['/autores']);
     this.cancelClicked.emit();
   }
 
