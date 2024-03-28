@@ -34,7 +34,6 @@ import { AlertModule } from 'ngx-bootstrap/alert';
     NgbModule,
     BrowserAnimationsModule,
     ModalModule.forRoot(),
-    AlertModule.forRoot(),
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],

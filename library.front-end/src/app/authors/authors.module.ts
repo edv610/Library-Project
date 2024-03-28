@@ -5,12 +5,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { AuthorsCreateComponent } from './authors-create/authors-create.component';
-import { AuthorsCreateService } from './services/authors-create.service';
 import { AuthorsReadComponent } from './authors-read/authors-read.component';
-import { AuthorsReadService } from './services/authors-read.service';
+import { AuthorsService } from './services/authors.service';
 import { AuthorsRoutingModule } from './authors-routing.module';
 import { AuthorsUpdateComponent } from './authors-update/authors-update.component';
-import { AuthorsUpdateService } from './services/authors-update.service';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +24,8 @@ import { AuthorsUpdateService } from './services/authors-update.service';
     ReactiveFormsModule,
     RouterModule,
     AuthorsRoutingModule,
+    SharedModule,
   ],
-  providers: [AuthorsCreateService, AuthorsReadService, AuthorsUpdateService],
+  providers: [AuthorsService],
 })
 export class AuthorsModule {}

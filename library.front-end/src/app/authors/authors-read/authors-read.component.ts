@@ -1,8 +1,11 @@
-import { Component, TemplateRef, Output, EventEmitter } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
+import { EMPTY, Observable, Subject, takeUntil, catchError } from 'rxjs';
 
-import { AuthorsReadService } from '../services/authors-read.service';
+import { AuthorsService } from '../services/authors.service';
+import { Authors } from '../authors-interface';
+import { AlertModalComponent } from 'src/app/shared/alert-modal/alert-modal.component';
 
 @Component({
   selector: 'app-authors-read',
@@ -10,24 +13,43 @@ import { AuthorsReadService } from '../services/authors-read.service';
   styleUrls: ['./authors-read.component.scss'],
 })
 export class AuthorsReadComponent {
-  authors: any[] = [];
-  modalRef?: BsModalRef;
+  authors$!: Observable<Authors[]>;
   authorId!: number;
+  loadKey: boolean = false;
+  error$ = new Subject<boolean>();
+  deleteSuccess: any;
+  deleteError: any;
 
-  @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
+  private readonly unsubscribe$ = new Subject<void>();
 
+  modalRef!: BsModalRef;
   constructor(
-    private authorsReadService: AuthorsReadService,
+    private authorsService: AuthorsService,
     private router: Router,
     private modalService: BsModalService
-  ) {
-    this.loadData();
+  ) {}
+
+  ngOnInit() {
+    this.error$.next(false);
   }
 
   loadData() {
-    this.authorsReadService.getAuthors()?.subscribe((response) => {
-      this.authors = response;
-    });
+    this.loadKey = true;
+    setTimeout(() => {
+      this.authors$ = this.authorsService.getAuthors().pipe(
+        catchError((error) => {
+          console.error(error);
+          this.alertModal('danger', 'Tente novamente mais tarde.');
+          this.error$.next(true);
+          return EMPTY;
+        })
+      );
+    }, 2000);
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   openModal(template: TemplateRef<any>) {
@@ -41,18 +63,29 @@ export class AuthorsReadComponent {
   onDelete() {
     let confirmation = confirm('Deseja deletar o Autor?');
     if (confirmation) {
-      this.authorsReadService.deleteAuthor(this.authorId)?.subscribe(
-        (response) => {
-          alert(`${response.status}`);
-          this.formSubmitted.emit();
-          setTimeout(() => {
-            this.router.navigate(['/']);
-          }, 500);
-        },
-        (error) => {
-          console.log('Erro ao deletar autor: ', error);
-        }
-      );
+      this.authorsService
+        .deleteAuthor(this.authorId)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(
+          (response) => {
+            this.deleteSuccess = `${response.status}`;
+            this.alertModal('success', this.deleteSuccess);
+            setTimeout(() => {
+              this.router.navigate(['/']);
+            }, 5000);
+          },
+          (error) => {
+            (this.deleteError = 'Erro ao deletar autor: '), error;
+            this.alertModal('danger', this.deleteError);
+            console.log(this.deleteError);
+          }
+        );
     }
+  }
+
+  alertModal(type: string, message: any) {
+    this.modalRef = this.modalService.show(AlertModalComponent);
+    this.modalRef.content.type = type;
+    this.modalRef.content.message = message;
   }
 }

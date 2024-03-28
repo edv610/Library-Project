@@ -3,8 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { AuthorsReadService } from './../services/authors-read.service';
-import { AuthorsUpdateService } from './../services/authors-update.service';
+import { AuthorsService } from '../services/authors.service';
 
 @Component({
   selector: 'app-update',
@@ -22,11 +21,10 @@ export class AuthorsUpdateComponent implements OnInit {
   @Output() cancelClicked: EventEmitter<void> = new EventEmitter<void>(); // cancelar modal
 
   constructor(
-    private authorsUpdateService: AuthorsUpdateService,
     private formBuilder: FormBuilder,
     private router: Router,
     private routeData: ActivatedRoute,
-    private authorsReadService: AuthorsReadService
+    private authorsReadService: AuthorsService
   ) {
     this.authorId = this.routeData.snapshot.params['id'];
   }
@@ -59,7 +57,7 @@ export class AuthorsUpdateComponent implements OnInit {
 
     if (confirmation) {
       if (this.form.valid) {
-        this.authorsUpdateService
+        this.authorsReadService
           .updateAuthor(this.form.value, this.authorId)
           ?.subscribe(
             (response) => {

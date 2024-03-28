@@ -1,12 +1,11 @@
 <div class="card">
   <div class="card-header">
     <h2 class="float-start">Lista de Livros</h2>
-  </div>
-  <div class="card-body">
     <button
       (click)="newBook(templateCreateBook)"
       type="button"
       class="btn btn-primary float-end"
+      style="margin-top: 0.2rem"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -23,6 +22,7 @@
       Adicionar Livro
     </button>
   </div>
+  <div class="card-body"></div>
 
   <div class="card-body text-center">
     <table class="table table-bordered">
@@ -88,7 +88,11 @@
   </div>
 
   <div class="card-footer">
-    <button class="btn btn-primary float-end" (click)="booksRelations()">
+    <button
+      class="btn btn-primary float-end"
+      (click)="booksRelations()"
+      style="margin-top: 0.2rem; margin-bottom: 0.2rem"
+    >
       Relatório de Livros
     </button>
   </div>

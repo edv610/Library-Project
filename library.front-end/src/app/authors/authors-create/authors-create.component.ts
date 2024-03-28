@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AuthorsCreateService } from './../services/authors-create.service';
+import { AuthorsService } from './../services/authors.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -18,7 +18,7 @@ export class AuthorsCreateComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authorsCreateService: AuthorsCreateService,
+    private authorsCreateService: AuthorsService,
     private router: Router
   ) {}
   ngOnInit(): void {

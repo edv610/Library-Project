@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class AuthorsReadService {
+export class AuthorsService {
   constructor(private http: HttpClient) {}
 
   getAuthors() {
@@ -15,5 +15,16 @@ export class AuthorsReadService {
 
   deleteAuthor(authorId: number) {
     return this.http.delete<any>(`http://localhost:8080/authors/${authorId}`);
+  }
+
+  updateAuthor(dataName: any, dataId: any) {
+    return this.http.put<any>(
+      `http://localhost:8080/authors/${dataId}`,
+      dataName
+    );
+  }
+
+  createAuthor(data: any) {
+    return this.http.post<any>('http://localhost:8080/authors', data);
   }
 }

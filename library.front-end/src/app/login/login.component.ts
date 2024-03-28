@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 import { LoginAuthService } from './services/auth.service';
 import { LoginVerifiedService } from '../shared/services/login-verified.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AlertModalComponent } from 'src/app/shared/alert-modal/alert-modal.component';
 
 @Component({
   selector: 'app-login',
@@ -13,15 +14,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class LoginComponent implements OnInit {
   form!: FormGroup;
-
   errorMessage!: string;
 
+  modalRef!: BsModalRef;
   constructor(
     private login: LoginAuthService,
     private formBuilder: FormBuilder,
     private router: Router,
     private loginVerified: LoginVerifiedService,
-    private modalService: NgbModal
+    private modalService: BsModalService
   ) {
     this.form = this.formBuilder.group({
       email: [null, [Validators.required]],
@@ -34,10 +35,8 @@ export class LoginComponent implements OnInit {
     if (this.form.valid) {
       this.login.authUser(this.form.value)?.subscribe(
         (response) => {
-          alert(`${response.status}`);
-
           this.loginVerified.toggleVerifiedUser();
-
+          this.alertModal('success', `${response.status}`);
           setTimeout(() => {
             this.router.navigate(['/']);
           }, 500);
@@ -45,7 +44,7 @@ export class LoginComponent implements OnInit {
         (error) => {
           console.log(error);
           this.errorMessage = error.error.message;
-          alert(this.errorMessage);
+          this.alertModal('danger', this.errorMessage);
         }
       );
     }
@@ -61,5 +60,12 @@ export class LoginComponent implements OnInit {
     return {
       'is-invalid': this.touchedValidVerify(data),
     };
+  }
+
+  alertModal(type: string, message: any) {
+    this.modalRef = this.modalService.show(AlertModalComponent);
+    this.modalRef.content.type = type;
+    this.modalRef.content.type = type;
+    this.modalRef.content.message = message;
   }
 }
