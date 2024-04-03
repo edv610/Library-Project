@@ -70,7 +70,7 @@ export class BooksCreateComponent implements OnInit {
             this.formSubmitted.emit();
             setTimeout(() => {
               this.router.navigate(['/']);
-            }, 500);
+            }, 2000);
           },
           (error) => {
             console.log('Erro ao adicionar livro: ', error);

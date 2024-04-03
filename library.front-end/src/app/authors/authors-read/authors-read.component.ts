@@ -19,10 +19,9 @@ export class AuthorsReadComponent {
   error$ = new Subject<boolean>();
   deleteSuccess: any;
   deleteError: any;
-
+  modalRef!: BsModalRef;
   private readonly unsubscribe$ = new Subject<void>();
 
-  modalRef!: BsModalRef;
   constructor(
     private authorsService: AuthorsService,
     private router: Router,
@@ -72,7 +71,7 @@ export class AuthorsReadComponent {
             this.alertModal('success', this.deleteSuccess);
             setTimeout(() => {
               this.router.navigate(['/']);
-            }, 5000);
+            }, 2000);
           },
           (error) => {
             (this.deleteError = 'Erro ao deletar autor: '), error;

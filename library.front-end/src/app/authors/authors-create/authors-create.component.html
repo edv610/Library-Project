@@ -12,11 +12,6 @@
           formControlName="name"
           [ngClass]="showInputCssError('name')"
         />
-        <app-alert-modal
-          *ngIf="errorMessage"
-          type="danger"
-          message="{{ errorMessage }}"
-        ></app-alert-modal>
       </div>
     </div>
     <div class="card-footer">

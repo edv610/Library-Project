@@ -7,7 +7,9 @@ export class LoginVerifiedService {
   verifiedUser: boolean = false;
 
   toggleVerifiedUser() {
-    this.verifiedUser = !this.verifiedUser;
+    setTimeout(() => {
+      this.verifiedUser = !this.verifiedUser;
+    }, 2000);
   }
 
   userIsVerified() {

@@ -88,6 +88,7 @@ export async function updateAuthor(id: string, name: string) {
   } else {
     result = {
       statusCode: 404,
+      status: "Not Found!",
       message: "Autor não encontrado.",
     };
   }

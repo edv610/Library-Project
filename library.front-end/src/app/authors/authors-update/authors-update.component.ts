@@ -1,9 +1,11 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
 
 import { AuthorsService } from '../services/authors.service';
+import { AlertModalComponent } from 'src/app/shared/alert-modal/alert-modal.component';
 
 @Component({
   selector: 'app-update',
@@ -15,7 +17,11 @@ export class AuthorsUpdateComponent implements OnInit {
   @Input() authorId!: number;
   errorMessage!: string;
   authorDetails: any;
-  authorSubscribe: Subscription = new Subscription();
+
+  successMessage!: string;
+  modalRef!: BsModalRef;
+  error$ = new Subject<boolean>();
+  private readonly unsubscribe$ = new Subject<void>();
 
   @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>(); //Fechar modal apos envio
   @Output() cancelClicked: EventEmitter<void> = new EventEmitter<void>(); // cancelar modal
@@ -24,7 +30,8 @@ export class AuthorsUpdateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private routeData: ActivatedRoute,
-    private authorsReadService: AuthorsService
+    private authorsReadService: AuthorsService,
+    private modalService: BsModalService
   ) {
     this.authorId = this.routeData.snapshot.params['id'];
   }
@@ -34,42 +41,72 @@ export class AuthorsUpdateComponent implements OnInit {
       name: [null, [Validators.required, Validators.minLength(3)]],
     });
 
-    this.authorSubscribe = this.routeData.params?.subscribe(() => {
-      this.loadAuthorDetails();
-    });
+    this.routeData.params
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        catchError((error) => {
+          console.log(error);
+          this.alertModal('danger', 'Tente novamente mais tarde.');
+          this.error$.next(true);
+          return EMPTY;
+        })
+      )
+      .subscribe(() => {
+        this.loadAuthorDetails();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   loadAuthorDetails() {
     this.authorsReadService
       .getAuthorDetails(this.authorId)
-      ?.subscribe((details) => {
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        catchError((error) => {
+          console.log(error);
+          this.alertModal('danger', 'Tente novamente mais tarde.');
+          this.error$.next(true);
+          return EMPTY;
+        })
+      )
+      .subscribe((details) => {
         this.authorDetails = details;
       });
-  }
-
-  ngOnDestroy(): void {
-    this.authorSubscribe.unsubscribe();
   }
 
   onSubmit() {
     let confirmation = false;
     confirmation = confirm('Deseja confirmar?');
-
     if (confirmation) {
       if (this.form.valid) {
         this.authorsReadService
           .updateAuthor(this.form.value, this.authorId)
-          ?.subscribe(
+          .pipe(
+            takeUntil(this.unsubscribe$)
+            // catchError((error) => {
+            //   console.log(error);
+            //   this.alertModal('danger', 'Tente novamente mais tarde.');
+            //   this.error$.next(true);
+            //   return EMPTY;
+            // })
+          )
+          .subscribe(
             (response) => {
-              alert(`Atualizado com sucesso: ${response.message}`);
+              this.successMessage = `Atualizado com sucesso: ${response.message}`;
+              this.alertModal('success', this.successMessage);
               this.formSubmitted.emit();
               setTimeout(() => {
                 this.router.navigate(['/']);
-              }, 500);
+              }, 2000);
             },
             (error) => {
               console.log('Erro ao editar autor: ', error);
               this.errorMessage = error.error.message;
+              this.alertModal('danger', this.errorMessage);
             }
           );
       }
@@ -89,5 +126,11 @@ export class AuthorsUpdateComponent implements OnInit {
     return {
       'is-invalid': this.touchedValidVerify(data),
     };
+  }
+
+  alertModal(type: string, message: any) {
+    this.modalRef = this.modalService.show(AlertModalComponent);
+    this.modalRef.content.type = type;
+    this.modalRef.content.message = message;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -9,14 +9,16 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 export class AlertModalComponent {
   @Input() type!: string;
   @Input() message!: string;
-  alertTimeout: number = 5000;
+  alertTimeout: number = 2000;
 
   constructor(public modalRef: BsModalRef) {}
+
   isVisible: boolean = true;
 
   ngOnInit(): void {
     if (this.alertTimeout > 0) {
       setTimeout(() => {
+        this.modalRef.hide();
         this.isVisible = false;
       }, this.alertTimeout);
     }
