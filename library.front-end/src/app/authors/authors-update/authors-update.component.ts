@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
 
 import { AuthorsService } from '../services/authors.service';
-import { AlertModalComponent } from 'src/app/shared/alert-modal/alert-modal.component';
+import { AlertModalService } from 'src/app/shared/alert-modal/alert-modal.service';
 
 @Component({
   selector: 'app-update',
@@ -31,10 +31,8 @@ export class AuthorsUpdateComponent implements OnInit {
     private router: Router,
     private routeData: ActivatedRoute,
     private authorsReadService: AuthorsService,
-    private modalService: BsModalService
-  ) {
-    this.authorId = this.routeData.snapshot.params['id'];
-  }
+    private alertService: AlertModalService
+  ) {}
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -46,7 +44,7 @@ export class AuthorsUpdateComponent implements OnInit {
         takeUntil(this.unsubscribe$),
         catchError((error) => {
           console.log(error);
-          this.alertModal('danger', 'Tente novamente mais tarde.');
+          this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
           this.error$.next(true);
           return EMPTY;
         })
@@ -68,7 +66,7 @@ export class AuthorsUpdateComponent implements OnInit {
         takeUntil(this.unsubscribe$),
         catchError((error) => {
           console.log(error);
-          this.alertModal('danger', 'Tente novamente mais tarde.');
+          this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
           this.error$.next(true);
           return EMPTY;
         })
@@ -85,19 +83,11 @@ export class AuthorsUpdateComponent implements OnInit {
       if (this.form.valid) {
         this.authorsReadService
           .updateAuthor(this.form.value, this.authorId)
-          .pipe(
-            takeUntil(this.unsubscribe$)
-            // catchError((error) => {
-            //   console.log(error);
-            //   this.alertModal('danger', 'Tente novamente mais tarde.');
-            //   this.error$.next(true);
-            //   return EMPTY;
-            // })
-          )
+          .pipe(takeUntil(this.unsubscribe$))
           .subscribe(
             (response) => {
               this.successMessage = `Atualizado com sucesso: ${response.message}`;
-              this.alertModal('success', this.successMessage);
+              this.alertService.alertModal('success', this.successMessage);
               this.formSubmitted.emit();
               setTimeout(() => {
                 this.router.navigate(['/']);
@@ -106,7 +96,7 @@ export class AuthorsUpdateComponent implements OnInit {
             (error) => {
               console.log('Erro ao editar autor: ', error);
               this.errorMessage = error.error.message;
-              this.alertModal('danger', this.errorMessage);
+              this.alertService.alertModal('danger', this.errorMessage);
             }
           );
       }
@@ -114,7 +104,10 @@ export class AuthorsUpdateComponent implements OnInit {
   }
 
   cancelUpdate() {
-    this.cancelClicked.emit();
+    let result = confirm('Deseja Cancelar?');
+    if (result) {
+      this.cancelClicked.emit();
+    }
   }
 
   touchedValidVerify(data: string) {
@@ -126,11 +119,5 @@ export class AuthorsUpdateComponent implements OnInit {
     return {
       'is-invalid': this.touchedValidVerify(data),
     };
-  }
-
-  alertModal(type: string, message: any) {
-    this.modalRef = this.modalService.show(AlertModalComponent);
-    this.modalRef.content.type = type;
-    this.modalRef.content.message = message;
   }
 }

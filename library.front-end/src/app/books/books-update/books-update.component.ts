@@ -1,9 +1,11 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
 
 import { BooksService } from '../services/books.service';
+import { AlertModalService } from 'src/app/shared/alert-modal/alert-modal.service';
 
 @Component({
   selector: 'app-books-update',
@@ -13,13 +15,15 @@ import { BooksService } from '../services/books.service';
 export class BooksUpdateComponent {
   form!: FormGroup;
   @Input() booksId!: number;
-  errorMessage!: string;
   bookDetails: any;
-
   authors: any[] = [];
   publishers: any[] = [];
+  errorMessage!: string;
 
-  bookSubscribe: Subscription = new Subscription();
+  successMessage!: string;
+  modalRef!: BsModalRef;
+  error$ = new Subject<boolean>();
+  private readonly unsubscribe$ = new Subject<void>();
 
   @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>(); //Fechar modal apos envio
   @Output() cancelClicked: EventEmitter<void> = new EventEmitter<void>(); // cancelar modal
@@ -28,7 +32,8 @@ export class BooksUpdateComponent {
     private formBuilder: FormBuilder,
     private router: Router,
     private routeData: ActivatedRoute,
-    private booksService: BooksService
+    private booksService: BooksService,
+    private alertService: AlertModalService
   ) {}
 
   ngOnInit(): void {
@@ -39,63 +44,108 @@ export class BooksUpdateComponent {
       publisherId: [null, Validators.required],
     });
 
-    this.bookSubscribe = this.routeData.params?.subscribe(() => {
-      this.loadBookDetails();
-    });
+    this.routeData.params
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        catchError((error) => {
+          console.log(error);
+          this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
+          this.error$.next(true);
+          return EMPTY;
+        })
+      )
+      .subscribe(() => {
+        this.loadBookDetails();
+      });
 
     this.loadAuthors();
     this.loadPublishers();
   }
 
   loadAuthors() {
-    this.booksService.getAuthors()?.subscribe(
-      (data) => {
-        this.authors = data;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.booksService
+      .getAuthors()
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        catchError((error) => {
+          console.log(error);
+          this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
+          this.error$.next(true);
+          return EMPTY;
+        })
+      )
+      .subscribe(
+        (data) => {
+          this.authors = data;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   loadPublishers() {
-    this.booksService.getPublishers()?.subscribe(
-      (data) => {
-        this.publishers = data;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.booksService
+      .getPublishers()
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        catchError((error) => {
+          console.log(error);
+          this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
+          this.error$.next(true);
+          return EMPTY;
+        })
+      )
+      .subscribe(
+        (data) => {
+          this.publishers = data;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   loadBookDetails() {
-    this.booksService.getBookById(this.booksId)?.subscribe((details) => {
-      this.bookDetails = details;
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.bookSubscribe.unsubscribe();
+    this.booksService
+      .getBookById(this.booksId)
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        catchError((error) => {
+          console.log(error);
+          this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
+          this.error$.next(true);
+          return EMPTY;
+        })
+      )
+      .subscribe((details) => {
+        this.bookDetails = details;
+      });
   }
 
   onSubmit() {
-    let result = confirm('Deseja atualizar?');
-    if (result) {
+    let confirmation = false;
+    confirmation = confirm('Deseja confirmar?');
+    if (confirmation) {
       if (this.form.valid) {
-        this.booksService.updateBook(this.booksId, this.form.value)?.subscribe(
-          (response) => {
-            alert(`Livro: ${response.message} ${response.status}`);
-            this.formSubmitted.emit();
-            setTimeout(() => {
-              this.router.navigate(['/']);
-            }, 500);
-          },
-          (error) => {
-            console.log('Erro ao editar: ', error);
-            this.errorMessage = error.error.message;
-          }
-        );
+        this.booksService
+          .updateBook(this.booksId, this.form.value)
+          .pipe(takeUntil(this.unsubscribe$))
+          .subscribe(
+            (response) => {
+              this.successMessage = `Atualizado com sucesso: ${response.message}`;
+              this.alertService.alertModal('success', this.successMessage);
+              this.formSubmitted.emit();
+              setTimeout(() => {
+                this.router.navigate(['/']);
+              }, 2000);
+            },
+            (error) => {
+              console.log('Erro ao editar autor: ', error);
+              this.errorMessage = error.error.message;
+              this.alertService.alertModal('danger', this.errorMessage);
+            }
+          );
       }
     }
   }

@@ -5,7 +5,7 @@ import { EMPTY, Observable, Subject, takeUntil, catchError } from 'rxjs';
 
 import { AuthorsService } from '../services/authors.service';
 import { Authors } from '../authors-interface';
-import { AlertModalComponent } from 'src/app/shared/alert-modal/alert-modal.component';
+import { AlertModalService } from 'src/app/shared/alert-modal/alert-modal.service';
 
 @Component({
   selector: 'app-authors-read',
@@ -25,7 +25,8 @@ export class AuthorsReadComponent {
   constructor(
     private authorsService: AuthorsService,
     private router: Router,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private alertService: AlertModalService
   ) {}
 
   ngOnInit() {
@@ -36,9 +37,10 @@ export class AuthorsReadComponent {
     this.loadKey = true;
     setTimeout(() => {
       this.authors$ = this.authorsService.getAuthors().pipe(
+        takeUntil(this.unsubscribe$),
         catchError((error) => {
           console.error(error);
-          this.alertModal('danger', 'Tente novamente mais tarde.');
+          this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
           this.error$.next(true);
           return EMPTY;
         })
@@ -64,27 +66,32 @@ export class AuthorsReadComponent {
     if (confirmation) {
       this.authorsService
         .deleteAuthor(this.authorId)
-        .pipe(takeUntil(this.unsubscribe$))
+        .pipe(
+          takeUntil(this.unsubscribe$),
+          catchError((error) => {
+            console.error(error);
+            this.alertService.alertModal(
+              'danger',
+              'Tente novamente mais tarde.'
+            );
+            this.error$.next(true);
+            return EMPTY;
+          })
+        )
         .subscribe(
           (response) => {
             this.deleteSuccess = `${response.status}`;
-            this.alertModal('success', this.deleteSuccess);
+            this.alertService.alertModal('success', this.deleteSuccess);
             setTimeout(() => {
               this.router.navigate(['/']);
             }, 2000);
           },
           (error) => {
             (this.deleteError = 'Erro ao deletar autor: '), error;
-            this.alertModal('danger', this.deleteError);
+            this.alertService.alertModal('danger', this.deleteError);
             console.log(this.deleteError);
           }
         );
     }
-  }
-
-  alertModal(type: string, message: any) {
-    this.modalRef = this.modalService.show(AlertModalComponent);
-    this.modalRef.content.type = type;
-    this.modalRef.content.message = message;
   }
 }

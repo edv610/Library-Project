@@ -1,30 +1,32 @@
 <div class="card">
   <div class="text-center card-header"><h2>Relatório de Livros</h2></div>
-  <div *ngFor="let item of booksRelations">
-    <div class="card-body containerRelations">
-      <table class="table table-borderless table-sm">
-        <tbody>
-          <tr>
-            <th scope="row" class="col-2">Titulo:</th>
-            <td>{{ item.titulo }}</td>
-          </tr>
+  <div *ngIf="booksRelations$ | async as booksRelations; else loadingError">
+    <div *ngFor="let item of booksRelations">
+      <div class="card-body containerRelations">
+        <table class="table table-borderless table-sm">
+          <tbody>
+            <tr>
+              <th scope="row" class="col-2">Titulo:</th>
+              <td>{{ item.titulo }}</td>
+            </tr>
 
-          <tr>
-            <th scope="row" class="col-2">Data de Lançamento:</th>
-            <td>{{ item.data }}</td>
-          </tr>
+            <tr>
+              <th scope="row" class="col-2">Data de Lançamento:</th>
+              <td>{{ item.data }}</td>
+            </tr>
 
-          <tr>
-            <th scope="row" class="col-2">Autor:</th>
-            <td>{{ item.autor }}</td>
-          </tr>
+            <tr>
+              <th scope="row" class="col-2">Autor:</th>
+              <td>{{ item.autor }}</td>
+            </tr>
 
-          <tr>
-            <th scope="row" class="col-2">Editora:</th>
-            <td>{{ item.editora }}</td>
-          </tr>
-        </tbody>
-      </table>
+            <tr>
+              <th scope="row" class="col-2">Editora:</th>
+              <td>{{ item.editora }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -32,3 +34,17 @@
     <button (click)="onCancel()" class="btn btn-danger">Voltar</button>
   </div>
 </div>
+
+<ng-template #loadingError>
+  <div class="card-body" *ngIf="error$ | async; else loading">
+    <button class="btn btn-primary float-center" (click)="loadBookRelation()">
+      Atualizar
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #loading>
+  <div *ngIf="loadKey" class="card-body">
+    <span>Carregando Relatório...</span>
+  </div>
+</ng-template>

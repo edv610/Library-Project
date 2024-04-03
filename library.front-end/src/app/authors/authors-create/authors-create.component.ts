@@ -1,11 +1,11 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Subject, catchError, takeUntil, EMPTY } from 'rxjs';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Subject, takeUntil } from 'rxjs';
+import { Router } from '@angular/router';
 
 import { AuthorsService } from './../services/authors.service';
-import { Router } from '@angular/router';
-import { AlertModalComponent } from 'src/app/shared/alert-modal/alert-modal.component';
+import { AlertModalService } from 'src/app/shared/alert-modal/alert-modal.service';
 
 @Component({
   selector: 'app-authors-create',
@@ -27,7 +27,7 @@ export class AuthorsCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authorsCreateService: AuthorsService,
     private router: Router,
-    private modalService: BsModalService
+    private alertService: AlertModalService
   ) {}
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -47,19 +47,11 @@ export class AuthorsCreateComponent implements OnInit {
       if (this.form.valid) {
         this.authorsCreateService
           .createAuthor(this.form.value)
-          .pipe(
-            takeUntil(this.unsubscribe$),
-            catchError((error) => {
-              console.log(error);
-              this.alertModal('danger', 'Tente novamente mais tarde.');
-              this.error$.next(true);
-              return EMPTY;
-            })
-          )
+          .pipe(takeUntil(this.unsubscribe$))
           .subscribe(
             (response) => {
               this.successMessage = `Criado com sucesso: ${response.message}`;
-              this.alertModal('success', this.successMessage);
+              this.alertService.alertModal('success', this.successMessage);
               this.formSubmitted.emit();
               setTimeout(() => {
                 this.router.navigate(['/']);
@@ -68,7 +60,7 @@ export class AuthorsCreateComponent implements OnInit {
             (error) => {
               console.log('Erro ao criar autor: ', error);
               this.errorMessage = error.error.message;
-              this.alertModal('danger', this.errorMessage);
+              this.alertService.alertModal('danger', this.errorMessage);
             }
           );
       }
@@ -76,18 +68,16 @@ export class AuthorsCreateComponent implements OnInit {
   }
 
   cancelSubmit() {
-    this.cancelClicked.emit();
+    let result = confirm('Deseja Cancelar?');
+    if (result) {
+      this.cancelClicked.emit();
+      this.router.navigate(['/']);
+    }
   }
 
   touchedValidVerify(data: string) {
     const formData = this.form.get(data);
     return formData ? formData.invalid && formData.touched : false;
-  }
-
-  alertModal(type: string, message: any) {
-    this.modalRef = this.modalService.show(AlertModalComponent);
-    this.modalRef.content.type = type;
-    this.modalRef.content.message = message;
   }
 
   showInputCssError(data: string) {

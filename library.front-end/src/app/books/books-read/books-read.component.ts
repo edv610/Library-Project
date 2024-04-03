@@ -1,14 +1,11 @@
-import {
-  Component,
-  TemplateRef,
-  Output,
-  EventEmitter,
-  Input,
-} from '@angular/core';
+import { Component, TemplateRef, Input } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
+import { EMPTY, Observable, Subject, catchError, takeUntil } from 'rxjs';
 
 import { BooksService } from '../services/books.service';
+import { Books } from '../books-interface';
+import { AlertModalService } from 'src/app/shared/alert-modal/alert-modal.service';
 
 @Component({
   selector: 'app-books-read',
@@ -16,30 +13,44 @@ import { BooksService } from '../services/books.service';
   styleUrls: ['./books-read.component.scss'],
 })
 export class BooksReadComponent {
-  books: any[] = [];
+  books$!: Observable<Books[]>;
+  booksId!: number;
+  loadKey: boolean = false;
+  error$ = new Subject<boolean>();
+  deleteSuccess: any;
+  deleteError: any;
+  private readonly unsubscribe$ = new Subject<void>();
   modalRef?: BsModalRef;
-
-  @Input() booksId!: number;
-
-  @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private router: Router,
     private booksService: BooksService,
-    private modalService: BsModalService
-  ) {
-    this.loadData();
+    private modalService: BsModalService,
+    private alertService: AlertModalService
+  ) {}
+
+  ngOnInit() {
+    this.error$.next(false);
   }
 
   loadData() {
-    this.booksService.getBooks()?.subscribe(
-      (response) => {
-        this.books = response;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.loadKey = true;
+    setTimeout(() => {
+      this.books$ = this.booksService.getBooks().pipe(
+        takeUntil(this.unsubscribe$),
+        catchError((error) => {
+          console.error(error);
+          this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
+          this.error$.next(true);
+          return EMPTY;
+        })
+      );
+    }, 2000);
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   openModal(template: TemplateRef<any>) {
@@ -51,22 +62,36 @@ export class BooksReadComponent {
   }
 
   onDelete() {
-    let confirmation = confirm('Deseja deletar o Editora?');
-
+    let confirmation = confirm('Deseja deletar o Autor?');
     if (confirmation) {
-      this.booksService.deleteBook(this.booksId)?.subscribe(
-        (response) => {
-          alert(`${response.status}`);
-          this.formSubmitted.emit();
-          setTimeout(() => {
-            this.router.navigate(['/']);
-          }, 500);
-        },
-        (error) => {
-          alert('Erro ao deletar o livro, tente novamente.');
-          console.log('Erro ao deletar livro: ', error);
-        }
-      );
+      this.booksService
+        .deleteBook(this.booksId)
+        .pipe(
+          takeUntil(this.unsubscribe$),
+          catchError((error) => {
+            console.error(error);
+            this.alertService.alertModal(
+              'danger',
+              'Tente novamente mais tarde.'
+            );
+            this.error$.next(true);
+            return EMPTY;
+          })
+        )
+        .subscribe(
+          (response) => {
+            this.deleteSuccess = `${response.status}`;
+            this.alertService.alertModal('success', this.deleteSuccess);
+            setTimeout(() => {
+              this.router.navigate(['/']);
+            }, 2000);
+          },
+          (error) => {
+            (this.deleteError = 'Erro ao deletar livro: '), error;
+            this.alertService.alertModal('danger', this.deleteError);
+            console.log(this.deleteError);
+          }
+        );
     }
   }
 
