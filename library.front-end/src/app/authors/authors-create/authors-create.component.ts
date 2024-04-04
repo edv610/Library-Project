@@ -29,11 +29,13 @@ export class AuthorsCreateComponent implements OnInit {
     private router: Router,
     private alertService: AlertModalService
   ) {}
+
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3)]],
     });
   }
+
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();

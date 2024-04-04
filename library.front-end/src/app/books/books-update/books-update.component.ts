@@ -84,6 +84,11 @@ export class BooksUpdateComponent {
       );
   }
 
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
   loadPublishers() {
     this.booksService
       .getPublishers()

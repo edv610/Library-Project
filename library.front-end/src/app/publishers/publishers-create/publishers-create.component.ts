@@ -1,10 +1,13 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { EMPTY, Observable, Subject, catchError, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { PublishersService } from '../services/publishers.service';
 import { DropboxService } from 'src/app/shared/services/dropbox.service';
 import { BrazilianStates } from 'src/app/shared/models/brazilianStates';
+import { AlertModalService } from 'src/app/shared/alert-modal/alert-modal.service';
 
 @Component({
   selector: 'app-publishers-create',
@@ -14,7 +17,11 @@ import { BrazilianStates } from 'src/app/shared/models/brazilianStates';
 export class PublishersCreateComponent {
   form!: FormGroup;
   errorMessage!: string;
-  states!: BrazilianStates[];
+  states$!: Observable<BrazilianStates[]>;
+  successMessage!: string;
+  modalRef!: BsModalRef;
+  error$ = new Subject<boolean>();
+  private readonly unsubscribe$ = new Subject<void>();
 
   @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>(); //Fechar modal apos envio
   @Output() cancelClicked: EventEmitter<void> = new EventEmitter<void>(); // cancelar modal
@@ -23,7 +30,8 @@ export class PublishersCreateComponent {
     private formBuilder: FormBuilder,
     private publisherService: PublishersService,
     private router: Router,
-    private dropdownService: DropboxService
+    private dropdownService: DropboxService,
+    private alertService: AlertModalService
   ) {}
 
   ngOnInit(): void {
@@ -32,14 +40,20 @@ export class PublishersCreateComponent {
       location: [null, [Validators.required, Validators.maxLength(2)]],
     });
 
-    this.dropdownService.getBrazilianStates()?.subscribe(
-      (data) => {
-        this.states = data;
-      },
-      (error) => {
-        console.log(error);
-      }
+    this.states$ = this.dropdownService.getBrazilianStates().pipe(
+      takeUntil(this.unsubscribe$),
+      catchError((error) => {
+        console.error(error);
+        this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
+        this.error$.next(true);
+        return EMPTY;
+      })
     );
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   onSubmit() {
@@ -48,28 +62,34 @@ export class PublishersCreateComponent {
 
     if (confirmation) {
       if (this.form.valid) {
-        this.publisherService.createPublisher(this.form.value)?.subscribe(
-          (response) => {
-            alert(
-              `${response.status} \n Nome: ${response.message} \n Estado: ${response.message2}`
-            );
-            this.formSubmitted.emit();
-            setTimeout(() => {
-              this.router.navigate(['/']);
-            }, 500);
-          },
-          (error) => {
-            console.log('Erro ao criar Editora: ', error);
-            this.errorMessage = error.error.message;
-          }
-        );
+        this.publisherService
+          .createPublisher(this.form.value)
+          .pipe(takeUntil(this.unsubscribe$))
+          .subscribe(
+            (response) => {
+              this.successMessage = `${response.status} \n Nome: ${response.message} \n Estado: ${response.message2}`;
+              this.alertService.alertModal('success', this.successMessage);
+              this.formSubmitted.emit();
+              setTimeout(() => {
+                this.router.navigate(['/']);
+              }, 2000);
+            },
+            (error) => {
+              console.log('Erro ao criar autor: ', error);
+              this.errorMessage = error.error.message;
+              this.alertService.alertModal('danger', this.errorMessage);
+            }
+          );
       }
     }
   }
 
   cancelSubmit() {
-    // this.router.navigate(['/editoras']);
-    this.cancelClicked.emit();
+    let result = confirm('Deseja Cancelar?');
+    if (result) {
+      this.cancelClicked.emit();
+      this.router.navigate(['/']);
+    }
   }
 
   touchedValidVerify(data: string) {

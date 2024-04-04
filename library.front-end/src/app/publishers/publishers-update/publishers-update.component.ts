@@ -1,11 +1,13 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { EMPTY, Observable, Subject, catchError, takeUntil } from 'rxjs';
 
 import { PublishersService } from '../services/publishers.service';
 import { BrazilianStates } from 'src/app/shared/models/brazilianStates';
 import { DropboxService } from 'src/app/shared/services/dropbox.service';
+import { AlertModalService } from 'src/app/shared/alert-modal/alert-modal.service';
 
 @Component({
   selector: 'app-publishers-update',
@@ -17,9 +19,12 @@ export class PublishersUpdateComponent {
   @Input() publisherId!: number;
   errorMessage!: string;
   publisherDetails: any;
-  states!: BrazilianStates[];
+  states$!: Observable<BrazilianStates[]>;
 
-  publisherSubscribe: Subscription = new Subscription();
+  successMessage!: string;
+  modalRef!: BsModalRef;
+  error$ = new Subject<boolean>();
+  private readonly unsubscribe$ = new Subject<void>();
 
   @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>(); //Fechar modal apos envio
   @Output() cancelClicked: EventEmitter<void> = new EventEmitter<void>(); // cancelar modal
@@ -29,10 +34,9 @@ export class PublishersUpdateComponent {
     private router: Router,
     private routeData: ActivatedRoute,
     private publisherService: PublishersService,
-    private dropdownService: DropboxService
-  ) {
-    this.publisherId = this.routeData.snapshot.params['id'];
-  }
+    private dropdownService: DropboxService,
+    private alertService: AlertModalService
+  ) {}
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -40,51 +44,64 @@ export class PublishersUpdateComponent {
       location: [null, [Validators.required, Validators.maxLength(2)]],
     });
 
-    this.publisherSubscribe = this.routeData.params?.subscribe(() => {
+    this.routeData.params?.subscribe(() => {
       this.loadPublisherDetails();
     });
 
-    this.dropdownService.getBrazilianStates()?.subscribe(
-      (data) => {
-        this.states = data;
-      },
-      (error) => {
-        console.log(error);
-      }
+    this.states$ = this.dropdownService.getBrazilianStates().pipe(
+      takeUntil(this.unsubscribe$),
+      catchError((error) => {
+        console.error(error);
+        this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
+        this.error$.next(true);
+        return EMPTY;
+      })
     );
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   loadPublisherDetails() {
     this.publisherService
       .getPublisherDetails(this.publisherId)
-      ?.subscribe((details) => {
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        catchError((error) => {
+          console.error(error);
+          this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
+          this.error$.next(true);
+          return EMPTY;
+        })
+      )
+      .subscribe((details) => {
         this.publisherDetails = details;
       });
   }
 
-  ngOnDestroy(): void {
-    this.publisherSubscribe.unsubscribe();
-  }
-
   onSubmit() {
-    let result = confirm('Deseja atualizar?');
-    if (result) {
+    let confirmation = false;
+    confirmation = confirm('Deseja confirmar?');
+    if (confirmation) {
       if (this.form.valid) {
         this.publisherService
           .updatePublisher(this.publisherId, this.form.value)
-          ?.subscribe(
+          .pipe(takeUntil(this.unsubscribe$))
+          .subscribe(
             (response) => {
-              alert(
-                `${response.status} \n Nome: ${response.message} \n Estado: ${response.message2}`
-              );
+              this.successMessage = `${response.status} \n Nome: ${response.message} \n Estado: ${response.message2}`;
+              this.alertService.alertModal('success', this.successMessage);
               this.formSubmitted.emit();
               setTimeout(() => {
-                this.router.navigate(['/editoras']);
-              }, 500);
+                this.router.navigate(['/']);
+              }, 2000);
             },
             (error) => {
-              console.log('Erro ao editar: ', error);
+              console.log('Erro ao editar autor: ', error);
               this.errorMessage = error.error.message;
+              this.alertService.alertModal('danger', this.errorMessage);
             }
           );
       }
@@ -94,8 +111,8 @@ export class PublishersUpdateComponent {
   cancelUpdate() {
     let result = confirm('Deseja Cancelar?');
     if (result) {
-      // this.router.navigate(['/editoras/listar']);
       this.cancelClicked.emit();
+      this.router.navigate(['/']);
     }
   }
 

@@ -62,7 +62,7 @@ export class BooksReadComponent {
   }
 
   onDelete() {
-    let confirmation = confirm('Deseja deletar o Autor?');
+    let confirmation = confirm('Deseja deletar o Livro?');
     if (confirmation) {
       this.booksService
         .deleteBook(this.booksId)

@@ -14,7 +14,7 @@
         />
 
         <br />
-        <div>
+        <div *ngIf="states$ | async as states">
           <label for="location" class="form-label"
             >Estado: <span class="required">*</span></label
           >

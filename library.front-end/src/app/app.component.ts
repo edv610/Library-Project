@@ -24,7 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.loginVerifiedService.toggleVerifiedUser();
         this.router.navigate(['/login']);
-      }, 500);
+      }, 2000);
     }
   }
 }
