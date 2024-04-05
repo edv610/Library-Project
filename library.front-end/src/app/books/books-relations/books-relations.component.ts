@@ -26,17 +26,16 @@ export class BooksRelationsComponent {
 
   loadBookRelation() {
     this.loadKey = true;
-    setTimeout(() => {
-      this.booksRelations$ = this.booksService.getBookRelation().pipe(
-        takeUntil(this.unsubscribe$),
-        catchError((error) => {
-          console.log(error);
-          this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
-          this.error$.next(true);
-          return EMPTY;
-        })
-      );
-    }, 2000);
+
+    this.booksRelations$ = this.booksService.getBookRelation().pipe(
+      takeUntil(this.unsubscribe$),
+      catchError((error) => {
+        console.log(error);
+        this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
+        this.error$.next(true);
+        return EMPTY;
+      })
+    );
   }
 
   ngOnDestroy() {

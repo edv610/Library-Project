@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { LoginVerifiedService } from './shared/services/login-verified.service';
 import { Router } from '@angular/router';
-
+import { AlertModalService } from './shared/alert-modal/alert-modal.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit, OnDestroy {
   constructor(
     public loginVerifiedService: LoginVerifiedService,
-    private router: Router
+    private router: Router,
+    private alertModal: AlertModalService
   ) {}
   ngOnInit(): void {}
   ngOnDestroy(): void {}
@@ -20,11 +21,10 @@ export class AppComponent implements OnInit, OnDestroy {
     let logoffConfirm = confirm('Deseja sair da sessão?');
 
     if (logoffConfirm) {
-      alert('Você saiu da sessão!');
-      setTimeout(() => {
-        this.loginVerifiedService.toggleVerifiedUser();
-        this.router.navigate(['/login']);
-      }, 2000);
+      this.alertModal.alertModal('info', 'Você saiu da sessão!');
+
+      this.loginVerifiedService.toggleVerifiedUser();
+      this.router.navigate(['/login']);
     }
   }
 }

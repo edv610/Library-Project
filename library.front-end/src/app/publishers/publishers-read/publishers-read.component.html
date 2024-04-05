@@ -4,14 +4,6 @@
   </div>
 
   <div class="card-body text-center">
-    <button
-      class="float-center btn btn-danger"
-      *ngIf="!loadKey"
-      (click)="loadData()"
-    >
-      Carregar dados
-    </button>
-
     <div *ngIf="publishers$ | async as publishers; else loadingError">
       <table class="table table-bordered">
         <thead>

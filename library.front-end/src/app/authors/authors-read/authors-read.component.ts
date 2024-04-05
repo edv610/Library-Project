@@ -1,6 +1,5 @@
 import { Component, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Router } from '@angular/router';
 import { EMPTY, Observable, Subject, takeUntil, catchError } from 'rxjs';
 
 import { AuthorsService } from '../services/authors.service';
@@ -24,28 +23,26 @@ export class AuthorsReadComponent {
 
   constructor(
     private authorsService: AuthorsService,
-    private router: Router,
     private modalService: BsModalService,
     private alertService: AlertModalService
   ) {}
 
   ngOnInit() {
     this.error$.next(false);
+    this.loadData();
   }
 
   loadData() {
     this.loadKey = true;
-    setTimeout(() => {
-      this.authors$ = this.authorsService.getAuthors().pipe(
-        takeUntil(this.unsubscribe$),
-        catchError((error) => {
-          console.error(error);
-          this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
-          this.error$.next(true);
-          return EMPTY;
-        })
-      );
-    }, 2000);
+    this.authors$ = this.authorsService.getAuthors().pipe(
+      takeUntil(this.unsubscribe$),
+      catchError((error) => {
+        console.error(error);
+        this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
+        this.error$.next(true);
+        return EMPTY;
+      })
+    );
   }
 
   ngOnDestroy() {
@@ -82,9 +79,7 @@ export class AuthorsReadComponent {
           (response) => {
             this.deleteSuccess = `${response.status}`;
             this.alertService.alertModal('success', this.deleteSuccess);
-            setTimeout(() => {
-              this.router.navigate(['/']);
-            }, 2000);
+            this.loadData();
           },
           (error) => {
             (this.deleteError = 'Erro ao deletar autor: '), error;

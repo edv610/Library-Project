@@ -31,21 +31,21 @@ export class BooksReadComponent {
 
   ngOnInit() {
     this.error$.next(false);
+    this.loadData();
   }
 
   loadData() {
     this.loadKey = true;
-    setTimeout(() => {
-      this.books$ = this.booksService.getBooks().pipe(
-        takeUntil(this.unsubscribe$),
-        catchError((error) => {
-          console.error(error);
-          this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
-          this.error$.next(true);
-          return EMPTY;
-        })
-      );
-    }, 2000);
+
+    this.books$ = this.booksService.getBooks().pipe(
+      takeUntil(this.unsubscribe$),
+      catchError((error) => {
+        console.error(error);
+        this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
+        this.error$.next(true);
+        return EMPTY;
+      })
+    );
   }
 
   ngOnDestroy() {
@@ -82,9 +82,7 @@ export class BooksReadComponent {
           (response) => {
             this.deleteSuccess = `${response.status}`;
             this.alertService.alertModal('success', this.deleteSuccess);
-            setTimeout(() => {
-              this.router.navigate(['/']);
-            }, 2000);
+            this.loadData();
           },
           (error) => {
             (this.deleteError = 'Erro ao deletar livro: '), error;

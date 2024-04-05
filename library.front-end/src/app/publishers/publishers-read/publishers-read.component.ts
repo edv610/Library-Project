@@ -38,6 +38,7 @@ export class PublishersReadComponent {
 
   ngOnInit() {
     this.error$.next(false);
+    this.loadData();
   }
 
   ngOnDestroy() {
@@ -47,17 +48,16 @@ export class PublishersReadComponent {
 
   loadData() {
     this.loadKey = true;
-    setTimeout(() => {
-      this.publishers$ = this.publisherService.getPublishers().pipe(
-        takeUntil(this.unsubscribe$),
-        catchError((error) => {
-          console.error(error);
-          this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
-          this.error$.next(true);
-          return EMPTY;
-        })
-      );
-    }, 2000);
+
+    this.publishers$ = this.publisherService.getPublishers().pipe(
+      takeUntil(this.unsubscribe$),
+      catchError((error) => {
+        console.error(error);
+        this.alertService.alertModal('danger', 'Tente novamente mais tarde.');
+        this.error$.next(true);
+        return EMPTY;
+      })
+    );
   }
 
   openModal(template: TemplateRef<any>) {
@@ -89,9 +89,8 @@ export class PublishersReadComponent {
           (response) => {
             this.deleteSuccess = `${response.Status}`;
             this.alertService.alertModal('success', this.deleteSuccess);
-            setTimeout(() => {
-              this.router.navigate(['/']);
-            }, 2000);
+
+            this.loadData();
           },
           (error) => {
             (this.deleteError = 'Erro ao deletar editora: '), error;

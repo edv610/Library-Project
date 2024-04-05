@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
 
@@ -30,7 +30,6 @@ export class BooksUpdateComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
     private routeData: ActivatedRoute,
     private booksService: BooksService,
     private alertService: AlertModalService
@@ -142,7 +141,7 @@ export class BooksUpdateComponent {
               this.alertService.alertModal('success', this.successMessage);
               this.formSubmitted.emit();
               setTimeout(() => {
-                this.router.navigate(['/']);
+                window.location.reload();
               }, 2000);
             },
             (error) => {
@@ -159,7 +158,6 @@ export class BooksUpdateComponent {
     let result = confirm('Deseja Cancelar?');
     if (result) {
       this.cancelClicked.emit();
-      this.router.navigate(['/']);
     }
   }
 

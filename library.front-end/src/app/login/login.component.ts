@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { catchError, takeUntil } from 'rxjs/operators';
 
 import { LoginAuthService } from './services/auth.service';
 import { LoginVerifiedService } from '../shared/services/login-verified.service';
-import { AlertModalComponent } from 'src/app/shared/alert-modal/alert-modal.component';
-import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
+import { AlertModalService } from '../shared/alert-modal/alert-modal.service';
+import { EMPTY, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,6 @@ export class LoginComponent implements OnInit {
   errorMessage!: string;
   successMessage!: string;
   error$ = new Subject<boolean>();
-  modalRef!: BsModalRef;
   private readonly unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -26,13 +25,14 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private loginVerified: LoginVerifiedService,
-    private modalService: BsModalService
+    private alertModalService: AlertModalService
   ) {
     this.form = this.formBuilder.group({
       email: [null, [Validators.required]],
       password: [null, [Validators.required, Validators.minLength(8)]],
     });
   }
+
   ngOnInit(): void {}
 
   onSubmit() {
@@ -43,7 +43,10 @@ export class LoginComponent implements OnInit {
           takeUntil(this.unsubscribe$),
           catchError((error) => {
             console.log(error);
-            this.alertModal('danger', 'Tente novamente mais tarde.');
+            this.alertModalService.alertModal(
+              'danger',
+              'Tente novamente mais tarde.'
+            );
             this.error$.next(true);
             return EMPTY;
           })
@@ -51,15 +54,13 @@ export class LoginComponent implements OnInit {
         .subscribe(
           (response) => {
             this.loginVerified.toggleVerifiedUser();
-            this.alertModal('success', `${response.status}`);
-            setTimeout(() => {
-              this.router.navigate(['/']);
-            }, 2000);
+            this.alertModalService.alertModal('success', `${response.status}`);
+            this.router.navigate(['/']);
           },
           (error) => {
             console.log(error);
             this.errorMessage = error.error.message;
-            this.alertModal('danger', this.errorMessage);
+            this.alertModalService.alertModal('danger', this.errorMessage);
           }
         );
     }
@@ -67,7 +68,6 @@ export class LoginComponent implements OnInit {
 
   touchedValidVerify(data: string) {
     const formData = this.form.get(data);
-
     return formData ? formData.invalid && formData.touched : false;
   }
 
@@ -80,12 +80,5 @@ export class LoginComponent implements OnInit {
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-  }
-
-  alertModal(type: string, message: any) {
-    this.modalRef = this.modalService.show(AlertModalComponent);
-    this.modalRef.content.type = type;
-    this.modalRef.content.type = type;
-    this.modalRef.content.message = message;
   }
 }

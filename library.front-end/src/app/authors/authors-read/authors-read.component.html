@@ -3,14 +3,6 @@
     <h2 class="float-start">Lista de Autores</h2>
   </div>
   <div class="card-body text-center">
-    <button
-      class="float-center btn btn-danger"
-      *ngIf="!loadKey"
-      (click)="loadData()"
-    >
-      Carregar dados
-    </button>
-
     <div *ngIf="authors$ | async as authors; else loadingError">
       <table class="table table-bordered">
         <thead>

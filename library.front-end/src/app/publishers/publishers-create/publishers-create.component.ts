@@ -71,7 +71,7 @@ export class PublishersCreateComponent {
               this.alertService.alertModal('success', this.successMessage);
               this.formSubmitted.emit();
               setTimeout(() => {
-                this.router.navigate(['/']);
+                window.location.reload();
               }, 2000);
             },
             (error) => {
@@ -88,7 +88,6 @@ export class PublishersCreateComponent {
     let result = confirm('Deseja Cancelar?');
     if (result) {
       this.cancelClicked.emit();
-      this.router.navigate(['/']);
     }
   }
 

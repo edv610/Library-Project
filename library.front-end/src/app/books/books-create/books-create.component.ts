@@ -2,7 +2,6 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject, catchError, takeUntil, EMPTY } from 'rxjs';
-import { Router } from '@angular/router';
 
 import { BooksService } from '../services/books.service';
 import { AlertModalService } from 'src/app/shared/alert-modal/alert-modal.service';
@@ -29,7 +28,6 @@ export class BooksCreateComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private bookService: BooksService,
-    private router: Router,
     private alertService: AlertModalService
   ) {}
 
@@ -109,7 +107,7 @@ export class BooksCreateComponent implements OnInit {
               this.alertService.alertModal('success', this.successMessage);
               this.formSubmitted.emit();
               setTimeout(() => {
-                this.router.navigate(['/']);
+                window.location.reload();
               }, 2000);
             },
             (error) => {
@@ -126,7 +124,6 @@ export class BooksCreateComponent implements OnInit {
     let result = confirm('Deseja Cancelar?');
     if (result) {
       this.cancelClicked.emit();
-      this.router.navigate(['/']);
     }
   }
 

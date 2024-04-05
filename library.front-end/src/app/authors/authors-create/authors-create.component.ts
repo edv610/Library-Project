@@ -2,7 +2,6 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject, takeUntil } from 'rxjs';
-import { Router } from '@angular/router';
 
 import { AuthorsService } from './../services/authors.service';
 import { AlertModalService } from 'src/app/shared/alert-modal/alert-modal.service';
@@ -26,7 +25,6 @@ export class AuthorsCreateComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authorsCreateService: AuthorsService,
-    private router: Router,
     private alertService: AlertModalService
   ) {}
 
@@ -56,7 +54,7 @@ export class AuthorsCreateComponent implements OnInit {
               this.alertService.alertModal('success', this.successMessage);
               this.formSubmitted.emit();
               setTimeout(() => {
-                this.router.navigate(['/']);
+                window.location.reload();
               }, 2000);
             },
             (error) => {
@@ -73,7 +71,6 @@ export class AuthorsCreateComponent implements OnInit {
     let result = confirm('Deseja Cancelar?');
     if (result) {
       this.cancelClicked.emit();
-      this.router.navigate(['/']);
     }
   }
 
